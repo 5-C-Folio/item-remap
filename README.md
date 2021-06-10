@@ -5,8 +5,7 @@
 * 5C Aleph oracle read only credentials stored as passwords.json  
 
 ### Purpose
-Call numbers in item records are not always stored in order, so the process of removing the subfields will not result in  
-a properly parsed call number.  
+Call numbers in item records are not always stored in order, so the process of removing the subfields will not result in a properly parsed call number.  
 This script pulls item records using the original Steve Item query, and views created by Steve and applies a call number parsing function that will detect call number fields  
 prefix and suffix fields  
 
