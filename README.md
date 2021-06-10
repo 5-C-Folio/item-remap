@@ -26,4 +26,5 @@ prefix and suffix fields
 * script is untested with a full extract 
 * script is depenent on the existance of a Steve view in the Aleph database.  if the view is dropped, the script will fail.  
 * git-sh decided the main branch should be called "master", which I don't like, and will fix later
+* script is set to append to the output file, and will not delete the file with a new run.  You must manually delete the output file between runs if you don't want all data in a single file
 
