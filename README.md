@@ -26,4 +26,5 @@ prefix and suffix fields
 * export csv headers are included in the script.  They are very long and probably should live elsewhere.
 * script is untested with a full extract 
 * script is depenent on the existance of a Steve view in the Aleph database.  if the view is dropped, the script will fail.  
+* git-sh decided the main branch should be called "master", which I don't like, and will fix later
 
