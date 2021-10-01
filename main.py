@@ -1,6 +1,7 @@
 import cx_Oracle
 from csv import DictWriter
 import json
+from datetime import datetime
 
 
 def lc_parser(callNo):
@@ -36,9 +37,9 @@ def callNo(row):
             #row.get("call_number", callNo)
             #return row
         else:
-            print("no value")
+            return row
     except AttributeError:
-        return []
+        return row
 
 
 #def foo(somelist):
@@ -61,13 +62,13 @@ class Query:
         cursor = self.connection.cursor()
         cursor.execute(f'''
         select *  from 
-        (select KEY from {self.inst}50.SB_KEY 
+        (select KEY from UMA50.SB_KEY 
         where substr(KEY,-5)='{self.inst}50'), {self.inst}50.z30
         where substr(KEY,1,15)=Z30_REC_KEY
         --last line is limit for testing
-        and ROWNUM < 1000
+        --and ROWNUM < 10
         ''')
-        numrows = 100
+        numrows = 100000
         while True:
             cursor.rowfactory = self.make_dict_factory(cursor)
             rows = cursor.fetchmany(numrows)
@@ -157,13 +158,20 @@ if __name__ == "__main__":
     query_results = Query(cx_Oracle.connect(pw["user"], pw["password"], pw["server"]), inst)
     # will yield a constructure that will be called until it returns no results
     query_results = query_results.item_query()
+    now = datetime.now()
+    now = now.strftime("%m-%d-%H%M")
     # create output file- will append since there will be multiple writes
-    f = open("output.csv", 'a', newline='')
+    f = open(f"items-{inst}-{now}.csv", 'a', newline='', encoding='utf-8')
     writer = DictWriter(f, fieldnames=headers)
     writer.writeheader()
     for row in query_results:
         for line in row:
-            writer.writerow(line)
-
+            try:
+                writer.writerow(line)
+            except AttributeError:
+                continue
+            except UnicodeEncodeError:
+                print(line["Z30_BARCODE"], "unicode error")
+                continue
     f.close()
     query_results.close()
