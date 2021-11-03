@@ -30,7 +30,7 @@ class dictMap:
     def get_loc(self, legCode ):
         # match legacy sublibrary+collection to get folio code.  Remove random whitespace
         for row in self.read_map:
-            if row['legacy_code'] == legCode.replace(" ", ""):
+            if row['legacy_code'] == legCode.rstrip():
                 return row["folio_code"]
 
 def lc_parser(callNo):
@@ -70,7 +70,7 @@ def parse(row):
     callNo = row['Z30_CALL_NO']
     barcode = barcode_parse(row["Z30_BARCODE"],inst)
     row.update(barcode)
-    x = locations_map.get_loc(f"{row['Z30_SUB_LIBRARY']} {row['Z30_COLLECTION'].replace(' ','')}")
+    x = locations_map.get_loc(f"{row['Z30_SUB_LIBRARY']} {row['Z30_COLLECTION'].rstrip()}")
     row.update({"folio_location": x})
     try:
         if callNo and "$$" in callNo:
