@@ -25,9 +25,18 @@ def lc_parser(callNo):
     callNodict["prefix"] = ' '.join(prefix)
     return callNodict
 
+def barcode_parse(barcode,schoolCode):
+    barcode = barcode.replace(" ", "")
+    if len(barcode) < 15:
+        barcode = f"{barcode}-{schoolCode}"
+    print(barcode)
+    return {"Z30_BARCODE":barcode}
 
-def callNo(row):
+
+def parse(row):
     callNo = row['Z30_CALL_NO']
+    barcode = barcode_parse(row["Z30_BARCODE"],inst)
+    row.update(barcode)
     try:
         if callNo and "$$" in callNo:
             callNodict=lc_parser(callNo)
@@ -76,7 +85,7 @@ class Query:
                 break
             else:
                 print("retrieving")
-                yield map(callNo, rows)
+                yield map(parse, rows)
 
 
 if __name__ == "__main__":
@@ -154,6 +163,7 @@ if __name__ == "__main__":
                 "call_number",
                 "suffix"]
     # used to get th right database
+    global inst
     inst = input("enter three character school code> ")
     query_results = Query(cx_Oracle.connect(pw["user"], pw["password"], pw["server"]), inst)
     # will yield a constructure that will be called until it returns no results
