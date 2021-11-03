@@ -4,7 +4,8 @@ import json
 from datetime import datetime
 from functools import lru_cache
 
-class dictMap():
+
+class dictMap:
     def __init__(self, file):
         self.file = file
 
@@ -25,7 +26,7 @@ class dictMap():
     @lru_cache()
     def get_loc(self, legCode ):
         for row in self.read_map:
-            if row['legacy_code'] == legCode:
+            if row['legacy_code'] == legCode.replace(" ", ""):
                 return row["folio_code"]
 
 def lc_parser(callNo):
@@ -48,6 +49,7 @@ def lc_parser(callNo):
     callNodict["call_number"] = ' '.join(callnumber)
     callNodict["prefix"] = ' '.join(prefix)
     return callNodict
+
 
 def barcode_parse(barcode,schoolCode):
     barcode = barcode.replace(" ", "")
@@ -72,8 +74,6 @@ def parse(row):
             return row
     except AttributeError:
         return row
-
-
 
 
 class Query:
@@ -110,6 +110,7 @@ class Query:
 
 
 if __name__ == "__main__":
+    # added directory of location mapping- this means changes to locations should happen here
     locations = ('c:\\Users\\aneslin\\Documents\\migration_five_colleges\\mapping_files\\locations.tsv')
     locations_map = dictMap(locations)
     # oracle log in file
