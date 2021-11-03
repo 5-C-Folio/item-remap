@@ -6,15 +6,18 @@ from functools import lru_cache
 
 
 class dictMap:
+    '''Take the mapping file and parse it into a dict to allow for matching '''
     def __init__(self, file):
         self.file = file
 
     def __str__(self):
+        # str method. no use, just good practice
       return json.dumps(self.read_map, indent=4)
 
 
     @property
     def read_map(self):
+        # read the dict into a json object.  Use tab as a delimiter.  Check to see if this is reoppening the file everytime?
         readobject = []
         locations = open(self.file, 'r')
         read_map = DictReader(locations, delimiter='\t')
@@ -25,11 +28,13 @@ class dictMap:
 
     @lru_cache()
     def get_loc(self, legCode ):
+        # match legacy sublibrary+collection to get folio code.  Remove random whitespace
         for row in self.read_map:
             if row['legacy_code'] == legCode.replace(" ", ""):
                 return row["folio_code"]
 
 def lc_parser(callNo):
+    # split call numbers.  if it's an H or I, it's the main call number, if k, then prefix. Anything else suffix.  Return
     callnosplit = callNo.split('$$')
     callNodict = {}
     suffix = []
@@ -52,6 +57,7 @@ def lc_parser(callNo):
 
 
 def barcode_parse(barcode,schoolCode):
+    # remove whitespace in barcodes. If the barcode doesn't match standard barcode length, append school code
     barcode = barcode.replace(" ", "")
     if len(barcode) < 15:
         barcode = f"{barcode}-{schoolCode}"
@@ -60,6 +66,7 @@ def barcode_parse(barcode,schoolCode):
 
 
 def parse(row):
+    #call all functions to fix results
     callNo = row['Z30_CALL_NO']
     barcode = barcode_parse(row["Z30_BARCODE"],inst)
     row.update(barcode)
@@ -77,18 +84,20 @@ def parse(row):
 
 
 class Query:
+    '''Query the Aleph database to return all items at a given institution.  Call cleanup as a map function'''
     def __init__(self, connection, inst):
         self.connection = connection
         self.inst = inst
 
     def make_dict_factory(self, cursor):
         columnNames = [d[0] for d in cursor.description]
-
+        #use zip to create dict from headers x values
         def create_row(*args):
             return dict(zip(columnNames, args))
         return create_row
 
     def item_query(self):
+        # the query.  Use rownum limit for testing.
         cursor = self.connection.cursor()
         cursor.execute(f'''
         select *  from 
@@ -111,7 +120,11 @@ class Query:
 
 if __name__ == "__main__":
     # added directory of location mapping- this means changes to locations should happen here
-    locations = ('c:\\Users\\aneslin\\Documents\\migration_five_colleges\\mapping_files\\locations.tsv')
+    try:
+        locations = ('c:\\Users\\aneslin\\Documents\\migration_five_colleges\\mapping_files\\locations.tsv')
+    except FileNotFoundError:
+        print("no valid location.tsv found.  Check the path")
+        exit()
     locations_map = dictMap(locations)
     # oracle log in file
     with open("passwords.json", "r") as pwFile:
