@@ -1,8 +1,32 @@
 import cx_Oracle
-from csv import DictWriter
+from csv import DictWriter, DictReader
 import json
 from datetime import datetime
+from functools import lru_cache
 
+class dictMap():
+    def __init__(self, file):
+        self.file = file
+
+    def __str__(self):
+      return json.dumps(self.read_map, indent=4)
+
+
+    @property
+    def read_map(self):
+        readobject = []
+        locations = open(self.file, 'r')
+        read_map = DictReader(locations, delimiter='\t')
+        for row in read_map:
+            readobject.append(row)
+        return readobject
+
+
+    @lru_cache()
+    def get_loc(self, legCode ):
+        for row in self.read_map:
+            if row['legacy_code'] == legCode:
+                return row["folio_code"]
 
 def lc_parser(callNo):
     callnosplit = callNo.split('$$')
@@ -37,22 +61,19 @@ def parse(row):
     callNo = row['Z30_CALL_NO']
     barcode = barcode_parse(row["Z30_BARCODE"],inst)
     row.update(barcode)
+    x = locations_map.get_loc(f"{row['Z30_SUB_LIBRARY']} {row['Z30_COLLECTION'].replace(' ','')}")
+    row.update({"folio_location": x})
     try:
         if callNo and "$$" in callNo:
-            callNodict=lc_parser(callNo)
+            callNodict = lc_parser(callNo)
             row.update(callNodict)
             return row
-        #elif callNo:
-            #row.get("call_number", callNo)
-            #return row
         else:
             return row
     except AttributeError:
         return row
 
 
-#def foo(somelist):
-#    return {x[0]: x for x in somelist}
 
 
 class Query:
@@ -89,6 +110,8 @@ class Query:
 
 
 if __name__ == "__main__":
+    locations = ('c:\\Users\\aneslin\\Documents\\migration_five_colleges\\mapping_files\\locations.tsv')
+    locations_map = dictMap(locations)
     # oracle log in file
     with open("passwords.json", "r") as pwFile:
         pw = json.load(pwFile)
@@ -161,12 +184,14 @@ if __name__ == "__main__":
                 "Z30_IP_LAST_RETURN_V6",
                 "prefix",
                 "call_number",
-                "suffix"]
+                "suffix",
+               "folio_location"]
     # used to get th right database
     global inst
+    # define inst as global value to be used in barcode parse as well
     inst = input("enter three character school code> ")
     query_results = Query(cx_Oracle.connect(pw["user"], pw["password"], pw["server"]), inst)
-    # will yield a constructure that will be called until it returns no results
+    # will yield a constructor that will be called until it returns no results
     query_results = query_results.item_query()
     now = datetime.now()
     now = now.strftime("%m-%d-%H%M")
