@@ -261,8 +261,8 @@ if __name__ == "__main__":
     now = datetime.now()
     now = now.strftime("%m-%d-%H%M")
     # create output file- will append since there will be multiple writes
-    f = open(f"items-{inst}-{now}.csv", 'a', newline='', encoding='utf-8')
-    writer = DictWriter(f, fieldnames=headers)
+    f = open(f"items-{inst}-{now}.tsv", 'a', newline='', encoding='utf-8')
+    writer = DictWriter(f, fieldnames=headers, delimiter='\t')
     writer.writeheader()
     for row in query_results:
         for line in row:
