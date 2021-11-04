@@ -96,8 +96,12 @@ def parse(row):
     callNo = row['Z30_CALL_NO']
     barcode = barcode_parse(row["Z30_BARCODE"],inst)
     row.update(barcode)
-    locationLookup = locations_map.get_loc(f"{row['Z30_SUB_LIBRARY']} {row['Z30_COLLECTION'].rstrip()}")
-    row.update({"folio_location": locationLookup})
+    try:
+        locationLookup = locations_map.get_loc(f"{row['Z30_SUB_LIBRARY']} {row['Z30_COLLECTION'].rstrip()}")
+        row.update({"folio_location": locationLookup})
+    except AttributeError:
+        locationLookup = locations_map.get_loc(f"{row['Z30_SUB_LIBRARY']} {row['Z30_COLLECTION']}")
+        row.update({"folio_location": locationLookup})
     loantypeLookup = loantype_map.get_loan(f"{row['Z30_SUB_LIBRARY']} {row['Z30_ITEM_STATUS']}")
     row.update({'loanType': loantypeLookup})
     try:
