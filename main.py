@@ -9,13 +9,14 @@ class dictMap:
     '''Take the mapping file and parse it into a dict to allow for matching '''
     def __init__(self, file):
         self.file = file
+        self.locMap = None
+        self.read_map()
 
     def __str__(self):
         # str method. no use, just good practice
       return json.dumps(self.read_map, indent=4)
 
 
-    @property
     def read_map(self):
         # read the dict into a json object.  Use tab as a delimiter.  Check to see if this is reoppening the file everytime?
         readobject = []
@@ -23,15 +24,40 @@ class dictMap:
         read_map = DictReader(locations, delimiter='\t')
         for row in read_map:
             readobject.append(row)
-        return readobject
+        self.locMap = readobject
 
 
     @lru_cache()
     def get_loc(self, legCode ):
-        # match legacy sublibrary+collection to get folio code.  Remove random whitespace
-        for row in self.read_map:
+        # match legacy sublibrary+collection to get folio code.  Remove random whitespace. There's not actually a reason for this to be a list- dict would be easier, but peformance is fine as is
+        for row in self.locMap:
             if row['legacy_code'] == legCode.rstrip():
                 return row["folio_code"]
+
+
+
+class loc_dictMap(dictMap):
+
+    def read_map(self):
+        # read the dict into a json object.  Use tab as a delimiter.  Check to see if this is reoppening the file everytime?
+        readobject = []
+        locations = open(self.file, 'r')
+        read_map = DictReader(locations, delimiter='\t')
+        for row in read_map:
+            comboRow = f"{row['Z30_SUB_LIBRARY']} {row['Z30_ITEM_STATUS']}"
+            row.update({"aleph_loan": comboRow})
+            readobject.append(row)
+        self.locMap = readobject
+
+
+    @lru_cache()
+    def get_loan(self, legCode):
+        # match legacy sublibrary+collection to get folio code.  Remove random whitespace
+        for row in self.locMap:
+            if row["aleph_loan"] == legCode.rstrip():
+                return row["folio_name"]
+
+
 
 def lc_parser(callNo):
     # split call numbers.  if it's an H or I, it's the main call number, if k, then prefix. Anything else suffix.  Return
@@ -61,7 +87,7 @@ def barcode_parse(barcode,schoolCode):
     barcode = barcode.replace(" ", "")
     if len(barcode) < 15:
         barcode = f"{barcode}-{schoolCode}"
-    print(barcode)
+    # print(barcode)
     return {"Z30_BARCODE":barcode}
 
 
@@ -70,8 +96,10 @@ def parse(row):
     callNo = row['Z30_CALL_NO']
     barcode = barcode_parse(row["Z30_BARCODE"],inst)
     row.update(barcode)
-    x = locations_map.get_loc(f"{row['Z30_SUB_LIBRARY']} {row['Z30_COLLECTION'].rstrip()}")
-    row.update({"folio_location": x})
+    locationLookup = locations_map.get_loc(f"{row['Z30_SUB_LIBRARY']} {row['Z30_COLLECTION'].rstrip()}")
+    row.update({"folio_location": locationLookup})
+    loantypeLookup = loantype_map.get_loan(f"{row['Z30_SUB_LIBRARY']} {row['Z30_ITEM_STATUS']}")
+    row.update({'loanType': loantypeLookup})
     try:
         if callNo and "$$" in callNo:
             callNodict = lc_parser(callNo)
@@ -126,6 +154,12 @@ if __name__ == "__main__":
         print("no valid location.tsv found.  Check the path")
         exit()
     locations_map = dictMap(locations)
+    try:
+        loanTypes = ('c:\\Users\\aneslin\\Documents\\migration_five_colleges\\mapping_files\\loan_types.tsv')
+    except FileNotFoundError:
+        print("no valid loantype.tsv found.  Check the path")
+        exit()
+    loantype_map = loc_dictMap(loanTypes)
     # oracle log in file
     with open("passwords.json", "r") as pwFile:
         pw = json.load(pwFile)
@@ -199,7 +233,8 @@ if __name__ == "__main__":
                 "prefix",
                 "call_number",
                 "suffix",
-               "folio_location"]
+               "folio_location",
+               "loanType"]
     # used to get th right database
     global inst
     # define inst as global value to be used in barcode parse as well
