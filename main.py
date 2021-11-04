@@ -4,22 +4,22 @@ import json
 from datetime import datetime
 from functools import lru_cache
 
+
 def del_dict(values : [], row:{}):
-    for things in values:
-        if things:
-            print(things)
-            row.pop(things)
+    for fields in values:
+        if fields:
+            row.pop(fields)
     return row
 
-def field_merge(delim=" ", *argv):
+
+def field_merge(fields : []):
     mergeList = []
-    for item in argv:
-        if item and len(item) > 0:
+    for item in fields:
+        if item:
             mergeList.append(item)
-    x = f"{delim}".join(mergeList)
-    x.rstrip()
-    x.replace("  ", " ")
-    return x
+    if len(mergeList) > 0:
+        x = " ".join(mergeList)
+        return x
 
 class dictMap:
     '''Take the mapping file and parse it into a dict to allow for matching '''
@@ -53,8 +53,6 @@ class dictMap:
             else:
                 x = "tech"
         return x
-
-
 
 
 class loc_dictMap(dictMap):
@@ -128,37 +126,37 @@ def parse(row):
         row.update({"folio_location": locationLookup})
     loantypeLookup = loantype_map.get_loan(f"{row['Z30_SUB_LIBRARY']} {row['Z30_ITEM_STATUS']}")
     row.update({'loanType': loantypeLookup})
-    compositeEnum = field_merge(row["Z30_ENUMERATION_A"],
+    compositeEnum = field_merge([row["Z30_ENUMERATION_A"],
                                 row["Z30_ENUMERATION_B"],
                                 row["Z30_ENUMERATION_C"],
                                 row["Z30_ENUMERATION_D"],
                                 row["Z30_ENUMERATION_E"],
                                 row["Z30_ENUMERATION_F"],
                                 row["Z30_ENUMERATION_G"],
-                                row["Z30_ENUMERATION_H"])
-    compositeChron = field_merge(row["Z30_CHRONOLOGICAL_I"],
+                                row["Z30_ENUMERATION_H"]])
+    if compositeEnum:
+        print(row["Z30_BARCODE"], compositeEnum)
+    compositeChron = field_merge([row["Z30_CHRONOLOGICAL_I"],
                                  row["Z30_CHRONOLOGICAL_J"],
                                  row["Z30_CHRONOLOGICAL_K"],
                                  row["Z30_CHRONOLOGICAL_L"],
-                                 row["Z30_CHRONOLOGICAL_M"])
+                                 row["Z30_CHRONOLOGICAL_M"]])
 
     row.update({"chronology": compositeChron})
     row.update({"enumeration": compositeEnum})
     del_dict(["Z30_ENUMERATION_A",
                                 "Z30_ENUMERATION_B",
-
                                 "Z30_ENUMERATION_C",
-                               "Z30_ENUMERATION_D",
+                                "Z30_ENUMERATION_D",
                                 "Z30_ENUMERATION_E",
                                 "Z30_ENUMERATION_F",
                                 "Z30_ENUMERATION_G",
                                 "Z30_ENUMERATION_H",
                                 "Z30_CHRONOLOGICAL_I",
-                                 "Z30_CHRONOLOGICAL_J",
-                                 "Z30_CHRONOLOGICAL_K",
+                                "Z30_CHRONOLOGICAL_J",
+                                "Z30_CHRONOLOGICAL_K",
                                 "Z30_CHRONOLOGICAL_L",
-                                "Z30_CHRONOLOGICAL_M"
-             ], row)
+                                "Z30_CHRONOLOGICAL_M"], row)
     try:
         if callNo and "$$" in callNo:
             callNodict = lc_parser(callNo)
