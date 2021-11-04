@@ -14,7 +14,7 @@ class dictMap:
 
     def __str__(self):
         # str method. no use, just good practice
-      return json.dumps(self.read_map, indent=4)
+      return json.dumps(self.locMap, indent=4)
 
 
     def read_map(self):
@@ -32,7 +32,12 @@ class dictMap:
         # match legacy sublibrary+collection to get folio code.  Remove random whitespace. There's not actually a reason for this to be a list- dict would be easier, but peformance is fine as is
         for row in self.locMap:
             if row['legacy_code'] == legCode.rstrip():
-                return row["folio_code"]
+                x = row["folio_code"]
+                break
+            else:
+                x = "tech"
+        return x
+
 
 
 
@@ -55,7 +60,12 @@ class loc_dictMap(dictMap):
         # match legacy sublibrary+collection to get folio code.  Remove random whitespace
         for row in self.locMap:
             if row["aleph_loan"] == legCode.rstrip():
-                return row["folio_name"]
+                x = row["folio_name"]
+                break
+            else:
+                x = "Non-circulating"
+        return x
+
 
 
 
@@ -158,12 +168,14 @@ if __name__ == "__main__":
         print("no valid location.tsv found.  Check the path")
         exit()
     locations_map = dictMap(locations)
+    print(locations_map)
     try:
         loanTypes = ('c:\\Users\\aneslin\\Documents\\migration_five_colleges\\mapping_files\\loan_types.tsv')
     except FileNotFoundError:
         print("no valid loantype.tsv found.  Check the path")
         exit()
     loantype_map = loc_dictMap(loanTypes)
+    print(loantype_map)
     # oracle log in file
     with open("passwords.json", "r") as pwFile:
         pw = json.load(pwFile)
