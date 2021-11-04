@@ -4,6 +4,12 @@ import json
 from datetime import datetime
 from functools import lru_cache
 
+def del_dict(values : [], row:{}):
+    for things in values:
+        if things:
+            print(things)
+            row.pop(things)
+    return row
 
 def field_merge(delim=" ", *argv):
     mergeList = []
@@ -135,8 +141,24 @@ def parse(row):
                                  row["Z30_CHRONOLOGICAL_K"],
                                  row["Z30_CHRONOLOGICAL_L"],
                                  row["Z30_CHRONOLOGICAL_M"])
+
     row.update({"chronology": compositeChron})
     row.update({"enumeration": compositeEnum})
+    del_dict(["Z30_ENUMERATION_A",
+                                "Z30_ENUMERATION_B",
+
+                                "Z30_ENUMERATION_C",
+                               "Z30_ENUMERATION_D",
+                                "Z30_ENUMERATION_E",
+                                "Z30_ENUMERATION_F",
+                                "Z30_ENUMERATION_G",
+                                "Z30_ENUMERATION_H",
+                                "Z30_CHRONOLOGICAL_I",
+                                 "Z30_CHRONOLOGICAL_J",
+                                 "Z30_CHRONOLOGICAL_K",
+                                "Z30_CHRONOLOGICAL_L",
+                                "Z30_CHRONOLOGICAL_M"
+             ], row)
     try:
         if callNo and "$$" in callNo:
             callNodict = lc_parser(callNo)
