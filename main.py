@@ -5,6 +5,16 @@ from datetime import datetime
 from functools import lru_cache
 
 
+def field_merge(delim=" ", *argv):
+    mergeList = []
+    for item in argv:
+        if item and len(item) > 0:
+            mergeList.append(item)
+    x = f"{delim}".join(mergeList)
+    x.rstrip()
+    x.replace("  ", " ")
+    return x
+
 class dictMap:
     '''Take the mapping file and parse it into a dict to allow for matching '''
     def __init__(self, file):
@@ -67,8 +77,6 @@ class loc_dictMap(dictMap):
         return x
 
 
-
-
 def lc_parser(callNo):
     # split call numbers.  if it's an H or I, it's the main call number, if k, then prefix. Anything else suffix.  Return
     callnosplit = callNo.split('$$')
@@ -114,6 +122,21 @@ def parse(row):
         row.update({"folio_location": locationLookup})
     loantypeLookup = loantype_map.get_loan(f"{row['Z30_SUB_LIBRARY']} {row['Z30_ITEM_STATUS']}")
     row.update({'loanType': loantypeLookup})
+    compositeEnum = field_merge(row["Z30_ENUMERATION_A"],
+                                row["Z30_ENUMERATION_B"],
+                                row["Z30_ENUMERATION_C"],
+                                row["Z30_ENUMERATION_D"],
+                                row["Z30_ENUMERATION_E"],
+                                row["Z30_ENUMERATION_F"],
+                                row["Z30_ENUMERATION_G"],
+                                row["Z30_ENUMERATION_H"])
+    compositeChron = field_merge(row["Z30_CHRONOLOGICAL_I"],
+                                 row["Z30_CHRONOLOGICAL_J"],
+                                 row["Z30_CHRONOLOGICAL_K"],
+                                 row["Z30_CHRONOLOGICAL_L"],
+                                 row["Z30_CHRONOLOGICAL_M"])
+    row.update({"chronology": compositeChron})
+    row.update({"enumeration": compositeEnum})
     try:
         if callNo and "$$" in callNo:
             callNodict = lc_parser(callNo)
@@ -224,19 +247,8 @@ if __name__ == "__main__":
                 "Z30_COPY_ID",
                 "Z30_HOL_DOC_NUMBER_X",
                 "Z30_TEMP_LOCATION",
-                "Z30_ENUMERATION_A",
-                "Z30_ENUMERATION_B",
-                "Z30_ENUMERATION_C",
-                "Z30_ENUMERATION_D",
-                "Z30_ENUMERATION_E",
-                "Z30_ENUMERATION_F",
-                "Z30_ENUMERATION_G",
-                "Z30_ENUMERATION_H",
-                "Z30_CHRONOLOGICAL_I",
-                "Z30_CHRONOLOGICAL_J",
-                "Z30_CHRONOLOGICAL_K",
-                "Z30_CHRONOLOGICAL_L",
-                "Z30_CHRONOLOGICAL_M",
+                "enumeration",
+                "chronology",
                 "Z30_SUPP_INDEX_O",
                 "Z30_85X_TYPE",
                 "Z30_DEPOSITORY_ID",
