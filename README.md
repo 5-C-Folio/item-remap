@@ -13,7 +13,9 @@ prefix and suffix fields
 
 System generated barcodes can be non-unique.  Remove any trailing barcode whitespace and for barcodes less than 15 characters, append institution code  
 
-Add FOLIO location codes.  
+Map Aleph Sub Library/Collection to FOLIO locationcode.
+
+Map Aleph Sub Library/Item process to FOLIO loan type
 
 ### Process
 1) Obtain credentials for oracle and store in passwords.json file using format  
@@ -21,10 +23,11 @@ Add FOLIO location codes.
     "password" --password,  
     "server": -- serverAddress}`
 2) Pull an up to date locations tsv file, and update script with correct directory
-3) comment out rownum in WHERE clause of SQL query. ROWNUM is included to avoid processing the entire database, which will be a very large file
-4) Set chucks for generator function.  The generator function will prevent a memory error and apply the remap function.  It can go much higher than the default 100
-5) Run program and specify Aleph school prefix code
-6) Run.  This will produce a very large file
+3) Pull an up to date loan type tsv file and update script with correct directory
+4) comment out rownum in WHERE clause of SQL query. ROWNUM is included to avoid processing the entire database, which will be a very large file
+5) Set chucks for generator function.  The generator function will prevent a memory error and apply the remap function.  It can go much higher than the default 100
+6) Run program and specify Aleph school prefix code
+7) Run.  This will produce a very large file
 
 ### Known Issues
 * Rownum and chunk size are hardcoded
@@ -33,6 +36,7 @@ Add FOLIO location codes.
 * script is depenent on the existance of a Steve view in the Aleph database.  if the view is dropped, the script will fail.  
 * git-sh decided the main branch should be called "master", which I don't like, and will fix later
 * Directory of locations.tsv is hardcoded 
+* The output is location code and loan type name.  These are not the UUIDs 
 
 ### TODO
 * add location.tsv directory as a parameter
