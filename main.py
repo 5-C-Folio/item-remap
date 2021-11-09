@@ -4,7 +4,24 @@ import json
 from datetime import datetime
 from functools import lru_cache
 
+def callnoType(alephCall):
+    ctypes = {"0":"Library of Congress classification",
+    "1":"Dewey Decimal classification",
+    "2":"National Library of Medicine classification",
+    "3":"Superintendent of Documents classification",
+    "4":"Shelving control number",
+    "5":"Title",
+    "6":"Shelved separately",
+    "7":"Source specified in subfield $2",
+    "8":"Other scheme",
+    "i":"Other scheme",
+    "*":"Other scheme"}
+    x = ctypes[alephCall]
+    return x
 
+
+
+# todo Replace file list with key value pairs instead of list of dicts
 def del_dict(values : [], row:{}):
     for fields in values:
         if fields:
@@ -143,7 +160,8 @@ def parse(row):
     row.update(barcode)
     materialLookup = singleMatch_materials.match(row['Z30_MATERIAL'])
     row.update({"material_type": materialLookup})
-
+    call_number_type = callnoType(row["Z30_CALL_NO_TYPE"])
+    row.update({"Z30_CALL_NO_TYPE": call_number_type})
     try:
         locationLookup = locations_map.get_loc(f"{row['Z30_SUB_LIBRARY']} {row['Z30_COLLECTION'].rstrip()}")
         row.update({"folio_location": locationLookup})
@@ -182,7 +200,15 @@ def parse(row):
                                 "Z30_CHRONOLOGICAL_J",
                                 "Z30_CHRONOLOGICAL_K",
                                 "Z30_CHRONOLOGICAL_L",
-                                "Z30_CHRONOLOGICAL_M"], row)
+                                "Z30_CHRONOLOGICAL_M",
+                                "Z30_CATALOGER",
+                                "Z30_IP_LAST_RETURN",
+                                "Z30_ALPHA",
+                                "Z30_CALL_NO_KEY",
+                                "Z30_CALL_NO_2_TYPE",
+                                "Z30_CALL_NO_2",
+                                "Z30_CALL_NO_2_KEY",
+                                ], row)
     try:
         if callNo and "$$" in callNo:
             callNodict = lc_parser(callNo)
@@ -216,7 +242,7 @@ class Query:
         where substr(KEY,-5)='{self.inst}50'), {self.inst}50.z30
         where substr(KEY,1,15)=Z30_REC_KEY
         --last line is limit for testing
-        --and ROWNUM < 100
+        and ROWNUM < 100
         ''')
         numrows = 100000
         while True:
@@ -262,19 +288,12 @@ if __name__ == "__main__":
                 "Z30_ITEM_STATUS",
                 "Z30_OPEN_DATE",
                 "Z30_UPDATE_DATE",
-                "Z30_CATALOGER",
                 "Z30_DATE_LAST_RETURN",
                 "Z30_HOUR_LAST_RETURN",
-                "Z30_IP_LAST_RETURN",
                 "Z30_NO_LOANS",
-                "Z30_ALPHA",
                 "Z30_COLLECTION",
                 "Z30_CALL_NO_TYPE",
                 "Z30_CALL_NO",
-                "Z30_CALL_NO_KEY",
-                "Z30_CALL_NO_2_TYPE",
-                "Z30_CALL_NO_2",
-                "Z30_CALL_NO_2_KEY",
                 "Z30_DESCRIPTION",
                 "Z30_NOTE_OPAC",
                 "Z30_NOTE_CIRCULATION",
