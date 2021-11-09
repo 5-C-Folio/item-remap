@@ -43,7 +43,7 @@ class dictMap:
         self.locMap = readobject
 
 
-    @lru_cache()
+    @lru_cache(32)
     def get_loc(self, legCode ):
         # match legacy sublibrary+collection to get folio code.  Remove random whitespace. There's not actually a reason for this to be a list- dict would be easier, but peformance is fine as is
         for row in self.locMap:
@@ -56,7 +56,7 @@ class dictMap:
 
 
 class loc_dictMap(dictMap):
-
+    # todo make a single class for all mappings
     def read_map(self):
         # read the dict into a json object.  Use tab as a delimiter.  Check to see if this is reoppening the file everytime?
         readobject = []
@@ -69,7 +69,7 @@ class loc_dictMap(dictMap):
         self.locMap = readobject
 
 
-    @lru_cache()
+    @lru_cache(32)
     def get_loan(self, legCode):
         # match legacy sublibrary+collection to get folio code.  Remove random whitespace
         for row in self.locMap:
@@ -77,8 +77,31 @@ class loc_dictMap(dictMap):
                 x = row["folio_name"]
                 break
             else:
-                x = "Non-circulating"
+                x = "Umapped"
         return x
+
+class singleMatch(dictMap):
+
+    def read_map(self):
+    # read the dict into a json object.  Use tab as a delimiter.  Check to see if this is reoppening the file everytime?
+        readobject = []
+        materialTypes = open(self.file, 'r')
+        read_map = DictReader(materialTypes, delimiter='\t')
+        for row in read_map:
+            readobject.append(row)
+        self.locMap = readobject
+
+    @lru_cache(8)
+    def match(self, legCode):
+        for row in self.locMap:
+            if row["Z30_MATERIAL"].rstrip() == legCode.rstrip():
+                x = row["folio_name"]
+                break
+            else:
+                x = f"error: legCode{legCode}"
+        return x
+
+
 
 
 def lc_parser(callNo):
@@ -118,6 +141,9 @@ def parse(row):
     callNo = row['Z30_CALL_NO']
     barcode = barcode_parse(row["Z30_BARCODE"],inst)
     row.update(barcode)
+    materialLookup = singleMatch_materials.match(row['Z30_MATERIAL'])
+    row.update({"material_type": materialLookup})
+
     try:
         locationLookup = locations_map.get_loc(f"{row['Z30_SUB_LIBRARY']} {row['Z30_COLLECTION'].rstrip()}")
         row.update({"folio_location": locationLookup})
@@ -190,7 +216,7 @@ class Query:
         where substr(KEY,-5)='{self.inst}50'), {self.inst}50.z30
         where substr(KEY,1,15)=Z30_REC_KEY
         --last line is limit for testing
-        --and ROWNUM < 10
+        --and ROWNUM < 100
         ''')
         numrows = 100000
         while True:
@@ -205,20 +231,25 @@ class Query:
 
 if __name__ == "__main__":
     # added directory of location mapping- this means changes to locations should happen here
+    # todo too many damn classes.  They all function the same
     try:
         locations = ('c:\\Users\\aneslin\\Documents\\migration_five_colleges\\mapping_files\\locations.tsv')
     except FileNotFoundError:
         print("no valid location.tsv found.  Check the path")
         exit()
     locations_map = dictMap(locations)
-    print(locations_map)
     try:
         loanTypes = ('c:\\Users\\aneslin\\Documents\\migration_five_colleges\\mapping_files\\loan_types.tsv')
     except FileNotFoundError:
         print("no valid loantype.tsv found.  Check the path")
         exit()
     loantype_map = loc_dictMap(loanTypes)
-    print(loantype_map)
+    try:
+        materialsTypes = ('c:\\Users\\aneslin\\Documents\\migration_five_colleges\\mapping_files\\material_types.tsv')
+    except FileNotFoundError:
+        print ("no valid material_types.tsv found")
+    singleMatch_materials= singleMatch(materialsTypes)
+    print(singleMatch_materials)
     # oracle log in file
     with open("passwords.json", "r") as pwFile:
         pw = json.load(pwFile)
@@ -282,12 +313,18 @@ if __name__ == "__main__":
                 "call_number",
                 "suffix",
                "folio_location",
-               "loanType"]
+               "loanType",
+               "material_type"]
     # used to get th right database
     global inst
     # define inst as global value to be used in barcode parse as well
     inst = input("enter three character school code> ")
-    query_results = Query(cx_Oracle.connect(pw["user"], pw["password"], pw["server"]), inst)
+    try:
+        print("connecting to DB")
+        query_results = Query(cx_Oracle.connect(pw["user"], pw["password"], pw["server"]), inst)
+    except cx_Oracle.DatabaseError:
+        print("The Oracle Connection is not working. Check your connection, VPN and server address")
+        exit()
     # will yield a constructor that will be called until it returns no results
     query_results = query_results.item_query()
     now = datetime.now()
