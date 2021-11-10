@@ -219,7 +219,8 @@ def parse(row):
             callNodict = lc_parser(callNo)
             row.update(callNodict)
             return row
-        else:
+        elif callNo:
+            row.update({"call_number": callNo})
             return row
     except AttributeError:
         return row
@@ -248,7 +249,7 @@ class Query:
         where substr(KEY,-5)='{self.inst}50'), {self.inst}50.z30
         where substr(KEY,1,15)=Z30_REC_KEY
         --last line is limit for testing
-        --and ROWNUM < 100
+        and ROWNUM < 10000
         ''')
         numrows = 100000
         while True:
