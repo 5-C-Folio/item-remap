@@ -144,6 +144,7 @@ def lc_parser(callNo):
                 prefix.append((subfield[1:]))
             else:
                 suffix.append(subfield[1:])
+
     callNodict["suffix"] = ' '.join(suffix)
     callNodict["call_number"] = ' '.join(callnumber)
     callNodict["prefix"] = ' '.join(prefix)
@@ -178,6 +179,11 @@ def parse(row):
     row.update({'loanType': loantypeLookup})
     item_policy = item_policy_map.match("legacy_code", "folio_name", row["Z30_ITEM_PROCESS_STATUS"], "Available")
     row.update({"item_status": item_policy})
+    if callNo and "$$" in callNo:
+        callNodict = lc_parser(callNo)
+        row.update(callNodict)
+    elif callNo:
+        row.update({"call_number": callNo})
     compositeEnum = field_merge([row["Z30_ENUMERATION_A"],
                                 row["Z30_ENUMERATION_B"],
                                 row["Z30_ENUMERATION_C"],
@@ -216,15 +222,9 @@ def parse(row):
               "Z30_CALL_NO_2_KEY",
               "Z30_COPY_ID"], row)
     try:
-        if callNo and "$$" in callNo:
-            callNodict = lc_parser(callNo)
-            row.update(callNodict)
-            return row
-        elif callNo:
-            row.update({"call_number": callNo})
-            return row
-    except AttributeError:
         return row
+    except AttributeError:
+        print("problem", row['Z30_BARCODE'])
 
 
 class Query:
@@ -371,8 +371,9 @@ if __name__ == "__main__":
         for line in row:
             try:
                 writer.writerow(line)
+
             except AttributeError:
-                print(line["Z30_BARCODE"], "Attribute error")
+                print("Error- NoneType?")
                 continue
             except UnicodeEncodeError:
                 print(line["Z30_BARCODE"], "unicode error")
