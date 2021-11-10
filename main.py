@@ -4,6 +4,7 @@ import json
 from datetime import datetime
 from functools import lru_cache
 
+@lru_cache(4)
 def callnoType(alephCall):
     ctypes = {"0":"Library of Congress classification",
     "1":"Dewey Decimal classification",
@@ -109,17 +110,14 @@ class singleMatch(dictMap):
         self.locMap = readobject
 
     @lru_cache(8)
-    def match(self, legCode):
+    def match(self, alephRow, folioRow, legCode, fallback):
         for row in self.locMap:
-            if row["Z30_MATERIAL"].rstrip() == legCode.rstrip():
-                x = row["folio_name"]
+            if row[alephRow].rstrip() == legCode.rstrip():
+                x = row[folioRow]
                 break
             else:
-                x = f"error: legCode{legCode}"
+                x = fallback
         return x
-
-
-
 
 def lc_parser(callNo):
     # split call numbers.  if it's an H or I, it's the main call number, if k, then prefix. Anything else suffix.  Return
@@ -158,7 +156,7 @@ def parse(row):
     callNo = row['Z30_CALL_NO']
     barcode = barcode_parse(row["Z30_BARCODE"],inst)
     row.update(barcode)
-    materialLookup = singleMatch_materials.match(row['Z30_MATERIAL'])
+    materialLookup = singleMatch_materials.match("Z30_MATERIAL", "folio_name", row["Z30_MATERIAL"], f"error: legCode {row['Z30_MATERIAL']}")
     row.update({"material_type": materialLookup})
     call_number_type = callnoType(row["Z30_CALL_NO_TYPE"])
     row.update({"Z30_CALL_NO_TYPE": call_number_type})
@@ -170,6 +168,8 @@ def parse(row):
         row.update({"folio_location": locationLookup})
     loantypeLookup = loantype_map.get_loan(f"{row['Z30_SUB_LIBRARY']} {row['Z30_ITEM_STATUS']}")
     row.update({'loanType': loantypeLookup})
+    item_policy = item_policy_map.match("legacy_code", "folio_name", row["Z30_ITEM_PROCESS_STATUS"], "Available")
+    row.update({"item_status": item_policy})
     compositeEnum = field_merge([row["Z30_ENUMERATION_A"],
                                 row["Z30_ENUMERATION_B"],
                                 row["Z30_ENUMERATION_C"],
@@ -178,8 +178,6 @@ def parse(row):
                                 row["Z30_ENUMERATION_F"],
                                 row["Z30_ENUMERATION_G"],
                                 row["Z30_ENUMERATION_H"]])
-    if compositeEnum:
-        print(row["Z30_BARCODE"], compositeEnum)
     compositeChron = field_merge([row["Z30_CHRONOLOGICAL_I"],
                                  row["Z30_CHRONOLOGICAL_J"],
                                  row["Z30_CHRONOLOGICAL_K"],
@@ -208,6 +206,7 @@ def parse(row):
                                 "Z30_CALL_NO_2_TYPE",
                                 "Z30_CALL_NO_2",
                                 "Z30_CALL_NO_2_KEY",
+                                "Z30_COPY_ID"
                                 ], row)
     try:
         if callNo and "$$" in callNo:
@@ -274,8 +273,15 @@ if __name__ == "__main__":
         materialsTypes = ('c:\\Users\\aneslin\\Documents\\migration_five_colleges\\mapping_files\\material_types.tsv')
     except FileNotFoundError:
         print ("no valid material_types.tsv found")
+        exit()
     singleMatch_materials= singleMatch(materialsTypes)
-    print(singleMatch_materials)
+    try:
+        item_policies = ('c:\\Users\\aneslin\\Documents\\migration_five_colleges\\mapping_files\\item_statuses.tsv')
+    except FileNotFoundError:
+        print ("no valid item_status.tsv found")
+        exit()
+    item_policy_map = singleMatch(item_policies)
+
     # oracle log in file
     with open("passwords.json", "r") as pwFile:
         pw = json.load(pwFile)
@@ -314,7 +320,6 @@ if __name__ == "__main__":
                 "Z30_ARRIVAL_DATE",
                 "Z30_ITEM_STATISTIC",
                 "Z30_ITEM_PROCESS_STATUS",
-                "Z30_COPY_ID",
                 "Z30_HOL_DOC_NUMBER_X",
                 "Z30_TEMP_LOCATION",
                 "enumeration",
@@ -333,7 +338,8 @@ if __name__ == "__main__":
                 "suffix",
                "folio_location",
                "loanType",
-               "material_type"]
+               "material_type",
+               "item_status"]
     # used to get th right database
     global inst
     # define inst as global value to be used in barcode parse as well
