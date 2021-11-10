@@ -113,17 +113,18 @@ class singleMatch(dictMap):
 
     @lru_cache(8)
     def match(self, alephRow, folioRow, legCode, fallback):
-        for row in self.locMap:
-            try:
+        try:
+            for row in self.locMap:
+
                 if row[alephRow].rstrip() == legCode.rstrip():
                     x = row[folioRow]
                     break
                 else:
                     x = fallback
-                return x
-            except AttributeError:
-                x = fallback
-                return x
+            return x
+        except AttributeError:
+               x = fallback
+               return x
 
 
 def lc_parser(callNo):
