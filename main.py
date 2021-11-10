@@ -4,22 +4,22 @@ import json
 from datetime import datetime
 from functools import lru_cache
 
+
 @lru_cache(4)
 def callnoType(alephCall):
-    ctypes = {"0":"Library of Congress classification",
-    "1":"Dewey Decimal classification",
-    "2":"National Library of Medicine classification",
-    "3":"Superintendent of Documents classification",
-    "4":"Shelving control number",
-    "5":"Title",
-    "6":"Shelved separately",
-    "7":"Source specified in subfield $2",
-    "8":"Other scheme",
-    "i":"Other scheme",
-    "*":"Other scheme"}
+    ctypes = {"0": "Library of Congress classification",
+              "1": "Dewey Decimal classification",
+              "2": "National Library of Medicine classification",
+              "3": "Superintendent of Documents classification",
+              "4": "Shelving control number",
+              "5": "Title",
+              "6": "Shelved separately",
+              "7": "Source specified in subfield $2",
+              "8": "Other scheme",
+              "i": "Other scheme",
+              "*": "Other scheme"}
     x = ctypes[alephCall]
     return x
-
 
 
 # todo Replace file list with key value pairs instead of list of dicts
@@ -39,6 +39,7 @@ def field_merge(fields : []):
         x = " ".join(mergeList)
         return x
 
+
 class dictMap:
     '''Take the mapping file and parse it into a dict to allow for matching '''
     def __init__(self, file):
@@ -50,7 +51,6 @@ class dictMap:
         # str method. no use, just good practice
       return json.dumps(self.locMap, indent=4)
 
-
     def read_map(self):
         # read the dict into a json object.  Use tab as a delimiter.  Check to see if this is reoppening the file everytime?
         readobject = []
@@ -59,7 +59,6 @@ class dictMap:
         for row in read_map:
             readobject.append(row)
         self.locMap = readobject
-
 
     @lru_cache(32)
     def get_loc(self, legCode ):
@@ -86,7 +85,6 @@ class loc_dictMap(dictMap):
             readobject.append(row)
         self.locMap = readobject
 
-
     @lru_cache(32)
     def get_loan(self, legCode):
         # match legacy sublibrary+collection to get folio code.  Remove random whitespace
@@ -97,6 +95,7 @@ class loc_dictMap(dictMap):
             else:
                 x = "Umapped"
         return x
+
 
 class singleMatch(dictMap):
 
@@ -118,6 +117,7 @@ class singleMatch(dictMap):
             else:
                 x = fallback
         return x
+
 
 def lc_parser(callNo):
     # split call numbers.  if it's an H or I, it's the main call number, if k, then prefix. Anything else suffix.  Return
@@ -187,27 +187,26 @@ def parse(row):
     row.update({"chronology": compositeChron})
     row.update({"enumeration": compositeEnum})
     del_dict(["Z30_ENUMERATION_A",
-                                "Z30_ENUMERATION_B",
-                                "Z30_ENUMERATION_C",
-                                "Z30_ENUMERATION_D",
-                                "Z30_ENUMERATION_E",
-                                "Z30_ENUMERATION_F",
-                                "Z30_ENUMERATION_G",
-                                "Z30_ENUMERATION_H",
-                                "Z30_CHRONOLOGICAL_I",
-                                "Z30_CHRONOLOGICAL_J",
-                                "Z30_CHRONOLOGICAL_K",
-                                "Z30_CHRONOLOGICAL_L",
-                                "Z30_CHRONOLOGICAL_M",
-                                "Z30_CATALOGER",
-                                "Z30_IP_LAST_RETURN",
-                                "Z30_ALPHA",
-                                "Z30_CALL_NO_KEY",
-                                "Z30_CALL_NO_2_TYPE",
-                                "Z30_CALL_NO_2",
-                                "Z30_CALL_NO_2_KEY",
-                                "Z30_COPY_ID"
-                                ], row)
+              "Z30_ENUMERATION_B",
+              "Z30_ENUMERATION_C",
+              "Z30_ENUMERATION_D",
+              "Z30_ENUMERATION_E",
+              "Z30_ENUMERATION_F",
+              "Z30_ENUMERATION_G",
+              "Z30_ENUMERATION_H",
+              "Z30_CHRONOLOGICAL_I",
+              "Z30_CHRONOLOGICAL_J",
+              "Z30_CHRONOLOGICAL_K",
+              "Z30_CHRONOLOGICAL_L",
+              "Z30_CHRONOLOGICAL_M",
+              "Z30_CATALOGER",
+              "Z30_IP_LAST_RETURN",
+              "Z30_ALPHA",
+              "Z30_CALL_NO_KEY",
+              "Z30_CALL_NO_2_TYPE",
+              "Z30_CALL_NO_2",
+              "Z30_CALL_NO_2_KEY",
+              "Z30_COPY_ID"], row)
     try:
         if callNo and "$$" in callNo:
             callNodict = lc_parser(callNo)
@@ -228,6 +227,7 @@ class Query:
     def make_dict_factory(self, cursor):
         columnNames = [d[0] for d in cursor.description]
         #use zip to create dict from headers x values
+
         def create_row(*args):
             return dict(zip(columnNames, args))
         return create_row
@@ -258,84 +258,84 @@ if __name__ == "__main__":
     # added directory of location mapping- this means changes to locations should happen here
     # todo too many damn classes.  They all function the same
     try:
-        locations = ('c:\\Users\\aneslin\\Documents\\migration_five_colleges\\mapping_files\\locations.tsv')
+        locations = 'c:\\Users\\aneslin\\Documents\\migration_five_colleges\\mapping_files\\locations.tsv'
     except FileNotFoundError:
         print("no valid location.tsv found.  Check the path")
         exit()
     locations_map = dictMap(locations)
     try:
-        loanTypes = ('c:\\Users\\aneslin\\Documents\\migration_five_colleges\\mapping_files\\loan_types.tsv')
+        loanTypes = 'c:\\Users\\aneslin\\Documents\\migration_five_colleges\\mapping_files\\loan_types.tsv'
     except FileNotFoundError:
         print("no valid loantype.tsv found.  Check the path")
         exit()
     loantype_map = loc_dictMap(loanTypes)
     try:
-        materialsTypes = ('c:\\Users\\aneslin\\Documents\\migration_five_colleges\\mapping_files\\material_types.tsv')
+        materialsTypes = 'c:\\Users\\aneslin\\Documents\\migration_five_colleges\\mapping_files\\material_types.tsv'
     except FileNotFoundError:
-        print ("no valid material_types.tsv found")
+        print("no valid material_types.tsv found")
         exit()
-    singleMatch_materials= singleMatch(materialsTypes)
+    singleMatch_materials = singleMatch(materialsTypes)
     try:
         item_policies = ('c:\\Users\\aneslin\\Documents\\migration_five_colleges\\mapping_files\\item_statuses.tsv')
     except FileNotFoundError:
-        print ("no valid item_status.tsv found")
+        print("no valid item_status.tsv found")
         exit()
     item_policy_map = singleMatch(item_policies)
 
     # oracle log in file
     with open("passwords.json", "r") as pwFile:
         pw = json.load(pwFile)
-    # define headers for csv - this should probably be in a seperate file
+    # define headers for csv - this should probably be in a separate file
     headers = ["KEY",
-                "Z30_REC_KEY",
-                "Z30_BARCODE",
-                "Z30_SUB_LIBRARY",
-                "Z30_MATERIAL",
-                "Z30_ITEM_STATUS",
-                "Z30_OPEN_DATE",
-                "Z30_UPDATE_DATE",
-                "Z30_DATE_LAST_RETURN",
-                "Z30_HOUR_LAST_RETURN",
-                "Z30_NO_LOANS",
-                "Z30_COLLECTION",
-                "Z30_CALL_NO_TYPE",
-                "Z30_CALL_NO",
-                "Z30_DESCRIPTION",
-                "Z30_NOTE_OPAC",
-                "Z30_NOTE_CIRCULATION",
-                "Z30_NOTE_INTERNAL",
-                "Z30_ORDER_NUMBER",
-                "Z30_INVENTORY_NUMBER",
-                "Z30_INVENTORY_NUMBER_DATE",
-                "Z30_LAST_SHELF_REPORT_DATE",
-                "Z30_PRICE",
-                "Z30_SHELF_REPORT_NUMBER",
-                "Z30_ON_SHELF_DATE",
-                "Z30_ON_SHELF_SEQ",
-                "Z30_REC_KEY_2",
-                "Z30_REC_KEY_3",
-                "Z30_PAGES",
-                "Z30_ISSUE_DATE",
-                "Z30_EXPECTED_ARRIVAL_DATE",
-                "Z30_ARRIVAL_DATE",
-                "Z30_ITEM_STATISTIC",
-                "Z30_ITEM_PROCESS_STATUS",
-                "Z30_HOL_DOC_NUMBER_X",
-                "Z30_TEMP_LOCATION",
-                "enumeration",
-                "chronology",
-                "Z30_SUPP_INDEX_O",
-                "Z30_85X_TYPE",
-                "Z30_DEPOSITORY_ID",
-                "Z30_LINKING_NUMBER",
-                "Z30_GAP_INDICATOR",
-                "Z30_MAINTENANCE_COUNT",
-                "Z30_PROCESS_STATUS_DATE",
-                "Z30_UPD_TIME_STAMP",
-                "Z30_IP_LAST_RETURN_V6",
-                "prefix",
-                "call_number",
-                "suffix",
+               "Z30_REC_KEY",
+               "Z30_BARCODE",
+               "Z30_SUB_LIBRARY",
+               "Z30_MATERIAL",
+               "Z30_ITEM_STATUS",
+               "Z30_OPEN_DATE",
+               "Z30_UPDATE_DATE",
+               "Z30_DATE_LAST_RETURN",
+               "Z30_HOUR_LAST_RETURN",
+               "Z30_NO_LOANS",
+               "Z30_COLLECTION",
+               "Z30_CALL_NO_TYPE",
+               "Z30_CALL_NO",
+               "Z30_DESCRIPTION",
+               "Z30_NOTE_OPAC",
+               "Z30_NOTE_CIRCULATION",
+               "Z30_NOTE_INTERNAL",
+               "Z30_ORDER_NUMBER",
+               "Z30_INVENTORY_NUMBER",
+               "Z30_INVENTORY_NUMBER_DATE",
+               "Z30_LAST_SHELF_REPORT_DATE",
+               "Z30_PRICE",
+               "Z30_SHELF_REPORT_NUMBER",
+               "Z30_ON_SHELF_DATE",
+               "Z30_ON_SHELF_SEQ",
+               "Z30_REC_KEY_2",
+               "Z30_REC_KEY_3",
+               "Z30_PAGES",
+               "Z30_ISSUE_DATE",
+               "Z30_EXPECTED_ARRIVAL_DATE",
+               "Z30_ARRIVAL_DATE",
+               "Z30_ITEM_STATISTIC",
+               "Z30_ITEM_PROCESS_STATUS",
+               "Z30_HOL_DOC_NUMBER_X",
+               "Z30_TEMP_LOCATION",
+               "enumeration",
+               "chronology",
+               "Z30_SUPP_INDEX_O",
+               "Z30_85X_TYPE",
+               "Z30_DEPOSITORY_ID",
+               "Z30_LINKING_NUMBER",
+               "Z30_GAP_INDICATOR",
+               "Z30_MAINTENANCE_COUNT",
+               "Z30_PROCESS_STATUS_DATE",
+               "Z30_UPD_TIME_STAMP",
+               "Z30_IP_LAST_RETURN_V6",
+               "prefix",
+               "call_number",
+               "suffix",
                "folio_location",
                "loanType",
                "material_type",
@@ -363,6 +363,7 @@ if __name__ == "__main__":
             try:
                 writer.writerow(line)
             except AttributeError:
+                print(line["Z30_BARCODE"], "Attribute error")
                 continue
             except UnicodeEncodeError:
                 print(line["Z30_BARCODE"], "unicode error")
