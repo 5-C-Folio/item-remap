@@ -7,18 +7,21 @@ from functools import lru_cache
 
 @lru_cache(4)
 def callnoType(alephCall):
-    ctypes = {"0": "Library of Congress classification",
-              "1": "Dewey Decimal classification",
-              "2": "National Library of Medicine classification",
-              "3": "Superintendent of Documents classification",
-              "4": "Shelving control number",
-              "5": "Title",
-              "6": "Shelved separately",
-              "7": "Source specified in subfield $2",
-              "8": "Other scheme",
-              "i": "Other scheme",
-              "*": "Other scheme"}
-    x = ctypes[alephCall]
+    try:
+        ctypes = {"0": "Library of Congress classification",
+               "1": "Dewey Decimal classification",
+               "2": "National Library of Medicine classification",
+               "3": "Superintendent of Documents classification",
+               "4": "Shelving control number",
+               "5": "Title",
+               "6": "Shelved separately",
+               "7": "Source specified in subfield $2",
+               "8": "Other scheme",
+               "i": "Other scheme",
+               "*": "Other scheme"}
+        x = ctypes[alephCall]
+    except KeyError:
+        x = 'None'
     return x
 
 
@@ -73,7 +76,7 @@ class dictMap:
 
 
 class loc_dictMap(dictMap):
-    # todo make a single class for all mappings
+    # todo refactor to be included in singlematch
     def read_map(self):
         # read the dict into a json object.  Use tab as a delimiter.  Check to see if this is reoppening the file everytime?
         readobject = []
@@ -111,12 +114,16 @@ class singleMatch(dictMap):
     @lru_cache(8)
     def match(self, alephRow, folioRow, legCode, fallback):
         for row in self.locMap:
-            if row[alephRow].rstrip() == legCode.rstrip():
-                x = row[folioRow]
-                break
-            else:
+            try:
+                if row[alephRow].rstrip() == legCode.rstrip():
+                    x = row[folioRow]
+                    break
+                else:
+                    x = fallback
+                return x
+            except AttributeError:
                 x = fallback
-        return x
+                return x
 
 
 def lc_parser(callNo):
@@ -241,7 +248,7 @@ class Query:
         where substr(KEY,-5)='{self.inst}50'), {self.inst}50.z30
         where substr(KEY,1,15)=Z30_REC_KEY
         --last line is limit for testing
-        and ROWNUM < 100
+        --and ROWNUM < 100
         ''')
         numrows = 100000
         while True:
