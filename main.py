@@ -219,7 +219,7 @@ def parse(row):
               "Z30_CALL_NO_KEY",
               "Z30_CALL_NO_2_TYPE",
               "Z30_CALL_NO_2",
-              "Z30_CALL_NO_2_KEY",
+              "Z30_CALL_NO_2_KEY"
               "Z30_COPY_ID"], row)
     try:
         return row
@@ -250,7 +250,7 @@ class Query:
         where substr(KEY,-5)='{self.inst}50'), {self.inst}50.z30
         where substr(KEY,1,15)=Z30_REC_KEY
         --last line is limit for testing
-        and ROWNUM < 10000
+        --and ROWNUM < 10000
         ''')
         numrows = 100000
         while True:
@@ -348,7 +348,8 @@ if __name__ == "__main__":
                "folio_location",
                "loanType",
                "material_type",
-               "item_status"]
+               "item_status",
+               "Z30_COPY_ID"]
     # used to get th right database
     global inst
     # define inst as global value to be used in barcode parse as well
