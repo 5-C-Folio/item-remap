@@ -160,6 +160,7 @@ def barcode_parse(barcode,schoolCode):
     return {"Z30_BARCODE":barcode}
 
 
+
 def parse(row):
     #call all functions to fix results
     callNo = row['Z30_CALL_NO']
@@ -167,23 +168,31 @@ def parse(row):
     row.update(barcode)
     materialLookup = singleMatch_materials.match("Z30_MATERIAL", "folio_name", row["Z30_MATERIAL"], f"error: legCode {row['Z30_MATERIAL']}")
     row.update({"material_type": materialLookup})
-    call_number_type = callnoType(row["Z30_CALL_NO_TYPE"])
-    row.update({"Z30_CALL_NO_TYPE": call_number_type})
-    try:
-        locationLookup = locations_map.get_loc(f"{row['Z30_SUB_LIBRARY']} {row['Z30_COLLECTION'].rstrip()}")
-        row.update({"folio_location": locationLookup})
-    except AttributeError:
-        locationLookup = locations_map.get_loc(f"{row['Z30_SUB_LIBRARY']} {row['Z30_COLLECTION']}")
-        row.update({"folio_location": locationLookup})
+
+
     loantypeLookup = loantype_map.get_loan(f"{row['Z30_SUB_LIBRARY']} {row['Z30_ITEM_STATUS']}")
     row.update({'loanType': loantypeLookup})
     item_policy = item_policy_map.match("legacy_code", "folio_name", row["Z30_ITEM_PROCESS_STATUS"], "Available")
     row.update({"item_status": item_policy})
-    if callNo and "$$" in callNo:
-        callNodict = lc_parser(callNo)
-        row.update(callNodict)
-    elif callNo:
-        row.update({"call_number": callNo})
+    #include the OR if you want both temp and non temp
+    if row["Z30_TEMP_LOCATION"] == "Y" or row["Z30_TEMP_LOCATION"] == "N":
+        call_number_type = callnoType(row["Z30_CALL_NO_TYPE"])
+        row.update({"Z30_CALL_NO_TYPE": call_number_type})
+        # hacky change to not include call number if it's not a temp_location
+        try:
+            locationLookup = locations_map.get_loc(f"{row['Z30_SUB_LIBRARY']} {row['Z30_COLLECTION'].rstrip()}")
+        except AttributeError:
+            locationLookup = locations_map.get_loc(f"{row['Z30_SUB_LIBRARY']} {row['Z30_COLLECTION']}")
+        row.update({"folio_location": locationLookup})
+
+        if callNo and "$$" in callNo:
+            callNodict = lc_parser(callNo)
+            row.update(callNodict)
+        elif callNo:
+            row.update({"call_number": callNo})
+    else:
+
+        row.update({"call_number": None})
     compositeEnum = field_merge([row["Z30_ENUMERATION_A"],
                                 row["Z30_ENUMERATION_B"],
                                 row["Z30_ENUMERATION_C"],
@@ -219,8 +228,15 @@ def parse(row):
               "Z30_CALL_NO_KEY",
               "Z30_CALL_NO_2_TYPE",
               "Z30_CALL_NO_2",
-              "Z30_CALL_NO_2_KEY"
-              "Z30_COPY_ID"], row)
+              "Z30_CALL_NO_2_KEY",
+              "Z30_IP_LAST_RETURN_V6",
+              "Z30_REC_KEY_2",
+              "Z30_REC_KEY_3",
+              "Z30_SHELF_REPORT_NUMBER",
+              "Z30_ON_SHELF_DATE",
+              "Z30_ON_SHELF_SEQ",
+              "Z30_LAST_SHELF_REPORT_DATE",
+              ], row)
     try:
         return row
     except AttributeError:
@@ -318,11 +334,6 @@ if __name__ == "__main__":
                "Z30_INVENTORY_NUMBER_DATE",
                "Z30_LAST_SHELF_REPORT_DATE",
                "Z30_PRICE",
-               "Z30_SHELF_REPORT_NUMBER",
-               "Z30_ON_SHELF_DATE",
-               "Z30_ON_SHELF_SEQ",
-               "Z30_REC_KEY_2",
-               "Z30_REC_KEY_3",
                "Z30_PAGES",
                "Z30_ISSUE_DATE",
                "Z30_EXPECTED_ARRIVAL_DATE",
@@ -341,7 +352,6 @@ if __name__ == "__main__":
                "Z30_MAINTENANCE_COUNT",
                "Z30_PROCESS_STATUS_DATE",
                "Z30_UPD_TIME_STAMP",
-               "Z30_IP_LAST_RETURN_V6",
                "prefix",
                "call_number",
                "suffix",
@@ -368,11 +378,14 @@ if __name__ == "__main__":
     f = open(f"items-{inst}-{now}.tsv", 'a', newline='', encoding='utf-8')
     writer = DictWriter(f, fieldnames=headers, delimiter='\t')
     writer.writeheader()
+    count = 0
     for row in query_results:
         for line in row:
             try:
+                count +=1
                 writer.writerow(line)
-
+                if count % 100 == 0:
+                    print(count)
             except AttributeError:
                 print("Error- NoneType?")
                 continue
