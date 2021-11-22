@@ -1,0 +1,77 @@
+legacy_patron_type	folio_patron_group
+01AC	Undergraduate
+01HC	Undergraduate
+01MH	Undergraduate
+01SC	Undergraduate
+01UM	Undergraduate
+02AC	Undergraduate
+02HC	Undergraduate
+02MH	Undergraduate
+02SC	Undergraduate
+04SC	Undergraduate
+07UM	Undergraduate
+09HC	Undergraduate
+09MH	Undergraduate
+09SC	Undergraduate
+09UM	Undergraduate
+10MH	Graduate
+33MH	Undergraduate
+47UM	Undergraduate
+30SC	SC Affiliate/Alum
+23AC	Institution
+40HC	Institution
+40MH	Institution
+40SC	Institution
+48UM	Institution
+20AC	Faculty
+20HC	Faculty
+20MH	Faculty
+20SC	Faculty
+20UM	Faculty
+21SC	Faculty
+23UM	Faculty
+29AC	Faculty
+29HC	Faculty
+29MH	Faculty
+29SC	Faculty
+29UM	Faculty
+31SC	SC Resident
+11SC	Graduate/SC SSW
+30AC	AC Resident
+31MH	MH Affiliate
+31UM	UM Resident/Alum Temp Card
+21AC	Staff
+21HC	Staff
+21MH	Staff
+21UM	Staff
+22SC	Staff
+39AC	Staff
+39HC	Staff
+39MH	Staff
+39SC	Staff
+39UM	Staff
+10SC	Graduate
+10UM	Graduate
+11MH	Graduate
+11UM	Graduate
+12UM	Graduate
+18AC	Graduate
+18HC	Graduate
+18MH	Graduate
+18SC	Graduate
+18UM	Graduate
+19AC	Graduate
+19HC	Graduate
+19MH	Graduate
+19SC	Graduate
+19UM	Graduate
+22UM	UM ILL
+30UM	UM Resident/Alum
+33UM	UM Resident/Alum
+37UM	UM Resident/Alum
+32UM	UM Affiliate
+44UM	UM Affiliate
+30MH	MH Alumna
+30HC	HC Resident/Alum
+32HC	HC Resident/Alum
+41MH	MH Resident

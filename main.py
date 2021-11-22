@@ -1,4 +1,5 @@
 import cx_Oracle
+cx_Oracle.init_oracle_client(lib_dir=r"C:\\oracle\\instantclient_12_1")
 from csv import DictWriter, DictReader
 import json
 from datetime import datetime
@@ -26,14 +27,14 @@ def callnoType(alephCall):
 
 
 # todo Replace file list with key value pairs instead of list of dicts
-def del_dict(values : [], row:{}):
+def del_dict(values : list, row: dict):
     for fields in values:
         if fields:
             row.pop(fields)
     return row
 
 
-def field_merge(fields : []):
+def field_merge(fields : list):
     mergeList = []
     for item in fields:
         if item:
@@ -283,32 +284,32 @@ if __name__ == "__main__":
     # added directory of location mapping- this means changes to locations should happen here
     # todo too many damn classes.  They all function the same
     try:
-        locations = 'c:\\Users\\aneslin\\Documents\\migration_five_colleges\\mapping_files\\locations.tsv'
+        locations = 'C:\\Users\\aneslin\Documents\\python\\item-remap\\mapping_files\\locations.tsv'
     except FileNotFoundError:
         print("no valid location.tsv found.  Check the path")
         exit()
     locations_map = dictMap(locations)
     try:
-        loanTypes = 'c:\\Users\\aneslin\\Documents\\migration_five_colleges\\mapping_files\\loan_types.tsv'
+        loanTypes = 'C:\\Users\\aneslin\\Documents\\python\\item-remap\\mapping_files\\loan_types.tsv'
     except FileNotFoundError:
         print("no valid loantype.tsv found.  Check the path")
         exit()
     loantype_map = loc_dictMap(loanTypes)
     try:
-        materialsTypes = 'c:\\Users\\aneslin\\Documents\\migration_five_colleges\\mapping_files\\material_types.tsv'
+        materialsTypes = 'C:\\Users\\aneslin\\Documents\\python\\item-remap\\mapping_files\\material_types.tsv'
     except FileNotFoundError:
         print("no valid material_types.tsv found")
         exit()
     singleMatch_materials = singleMatch(materialsTypes)
     try:
-        item_policies = ('c:\\Users\\aneslin\\Documents\\migration_five_colleges\\mapping_files\\item_statuses.tsv')
+        item_policies = ('C:\\Users\\aneslin\\Documents\\python\\item-remap\\mapping_files\\item_statuses.tsv')
     except FileNotFoundError:
         print("no valid item_status.tsv found")
         exit()
     item_policy_map = singleMatch(item_policies)
 
     # oracle log in file
-    with open("passwords.json", "r") as pwFile:
+    with open("C:\\Users\\aneslin\\Documents\\python\\item-remap\\passwords.json", "r") as pwFile:
         pw = json.load(pwFile)
     # define headers for csv - this should probably be in a separate file
     headers = ["KEY",
@@ -364,12 +365,12 @@ if __name__ == "__main__":
     global inst
     # define inst as global value to be used in barcode parse as well
     inst = input("enter three character school code> ")
-    try:
-        print("connecting to DB")
-        query_results = Query(cx_Oracle.connect(pw["user"], pw["password"], pw["server"]), inst)
-    except cx_Oracle.DatabaseError:
-        print("The Oracle Connection is not working. Check your connection, VPN and server address")
-        exit()
+    #try:
+    print("connecting to DB")
+    query_results = Query(cx_Oracle.connect(pw["user"], pw["password"], pw["server"]), inst)
+    #except cx_Oracle.DatabaseError:
+        #print("The Oracle Connection is not working. Check your connection, VPN and server address")
+        #exit()
     # will yield a constructor that will be called until it returns no results
     query_results = query_results.item_query()
     now = datetime.now()

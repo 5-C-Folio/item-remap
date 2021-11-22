@@ -1,0 +1,312 @@
+folio_name	Z30_SUB_LIBRARY	Z30_ITEM_STATUS
+Non-circulating	*	*
+1 Week	ACASP	10
+Non-circulating	ACASP	02
+Non-circulating	ACASP	03
+Non-circulating	ACASP	01
+Non-circulating	ACDEP	02
+Non-circulating	ACDEP	03
+Standard Loan	ACDEP	01
+Standard Loan	ACDEP	16
+1 Week	ACDEP	10
+1 Week	ACDEP	18
+Non-circulating	ACFST	02
+Non-circulating	ACFST	03
+Standard Loan	ACFST	01
+Standard Loan	ACFST	16
+Reserve 4 Hour	ACFST	22
+Reserve 1 Day	ACFST	23
+Reserve 3 Day	ACFST	24
+Reserve 1 Week	ACFST	25
+Reserve 1 Week	ACFST	26
+Semester	ACFST	15
+1 Week	ACFST	10
+1 Week	ACFST	18
+Internet	ACFST	04
+Equipment 4 Hour	ACMED	22
+Equipment 1 Week	ACMED	01
+Non-circulating	ACMUS	03
+Standard Loan	ACMUS	01
+Standard Loan	ACMUS	16
+Reserve 4 Hour	ACMUS	22
+Reserve 1 Day	ACMUS	23
+Reserve 3 Day	ACMUS	24
+Reserve 1 Week	ACMUS	25
+Reserve 1 Week	ACMUS	26
+Limited	ACMUS	10
+1 Week	ACMUS	18
+4 Week	ACMUS	17
+Internet	ACMUS	04
+Non-circulating	ACSCI	02
+Non-circulating	ACSCI	03
+Standard Loan	ACSCI	01
+Standard Loan	ACSCI	16
+Reserve 4 Hour	ACSCI	22
+Reserve 1 Day	ACSCI	23
+Reserve 3 Day	ACSCI	24
+Reserve 1 Week	ACSCI	25
+Reserve 1 Week	ACSCI	26
+1 Week	ACSCI	10
+1 Week	ACSCI	18
+Internet	ACSCI	04
+Non-circulating	HCASC	02
+Standard Loan	HCASC	01
+Internet	HCASC	04
+1 Week	HCFP	10
+Non-circulating	HCLIB	02
+Standard Loan	HCLIB	01
+Reserve 4 Hour	HCLIB	09
+Reserve 1 Day	HCLIB	13
+Reserve 3 Day	HCLIB	14
+1 Week	HCLIB	10
+4 Week	HCLIB	19
+Internet	HCLIB	04
+1 Year	HCLIB	20
+Non-circulating	HCMED	02
+Standard Loan	HCMED	01
+4 Week	HCMED	10
+Standard Loan	HCFP	01
+Non-circulating	MHASC	02
+Non-circulating	MHKSM	02
+Non-circulating	MHLIB	02
+Standard Loan	MHLIB	01
+Reserve 3 Day	MHLIB	13
+Reserve 4 Hour	MHLIB	11
+Limited	MHLIB	18
+2 Week	MHLIB	09
+1 Week	MHLIB	10
+4 Week	MHLIB	14
+4 Week	MHLIB	16
+Internet	MHLIB	04
+Equipment 3 Day	MHLIB	08
+Equipment 3 Day	MHLIB	15
+Equipment 4 Hour	MHLIB	07
+Equipment 4 Hour	MHLIB	17
+Equipment 4 Hour	MHLRC	07
+Equipment 4 Hour	MHLRC	17
+Equipment 4 Hour	MHPSL	07
+Equipment 4 Hour	MHPSL	17
+Equipment 3 Day	MHLIB	21
+Standard Loan	MHLRC	01
+Reserve 4 Hour	MHLRC	11
+1 Week	MHLRC	18
+Internet	MHLRC	04
+Non-circulating	MHPSL	02
+Standard Loan	MHPSL	01
+Reserve 3 Day	MHPSL	13
+Reserve 4 Hour	MHPSL	11
+4 Week	MHPSL	16
+4 Week	MHPSL	14
+Equipment 3 Day	MHPSL	08
+Equipment 3 Day	MHPSL	15
+Equipment 1 Week	MHPSL	19
+Equipment 3 Day	MHPSL	21
+Equipment 3 Day	MHLRC	08
+Equipment 3 Day	MHLRC	15
+Equipment 3 Day	MHLRC	21
+Non-circulating	SCANN	02
+Non-circulating	SCANN	03
+Standard Loan	SCANN	01
+Standard Loan	SCANN	05
+Reserve 4 Hour	SCANN	20
+Reserve 4 Hour	SCANN	27
+"Reserve 4 Hour, due at closing"	SCANN	21
+Reserve 1 Week	SCANN	25
+Semester	SCANN	66
+4 Week	SCANN	10
+1 Week	SCANN	11
+1 Week	SCANN	12
+1 Week	SCANN	13
+Internet	SCANN	04
+Non-circulating	SCHIL	02
+Non-circulating	SCHIL	03
+Standard Loan	SCHIL	01
+"Reserve 4 Hour, due at closing"	SCHIL	20
+"Reserve 4 Hour, due at closing"	SCHIL	21
+Reserve 1 Week	SCHIL	25
+Semester	SCHIL	66
+4 Week	SCHIL	10
+Limited	SCHIL	11
+Limited	SCHIL	12
+Limited	SCHIL	13
+Internet	SCHIL	04
+Non-circulating	SCJOS	02
+Non-circulating	SCJOS	03
+Standard Loan	SCJOS	01
+Reserve 4 Hour	SCJOS	20
+Reserve 1 Week	SCJOS	25
+Semester	SCJOS	66
+4 Week	SCJOS	10
+Limited	SCJOS	11
+Limited	SCJOS	12
+Limited	SCJOS	14
+4 Week	SCJOS	13
+Internet	SCJOS	04
+Non-circulating	SCNLS	02
+Non-circulating	SCNLS	03
+Standard Loan	SCNLS	01
+Standard Loan	SCNLS	05
+Reserve 4 Hour	SCNLS	20
+Reserve 4 Hour	SCNLS	27
+"Reserve 4 Hour, due at closing"	SCNLS	21
+Reserve 1 Week	SCNLS	25
+Semester	SCNLS	66
+4 Week	SCNLS	10
+1 Week	SCNLS	11
+1 Week	SCNLS	12
+4 Week	SCNLS	13
+Internet	SCNLS	04
+Non-circulating	SCSPC	02
+Non-circulating	SCSPC	03
+Standard Loan	SCSPC	01
+Limited	SCTYO	11
+Limited	SCTYO	12
+Limited	SCTYO	13
+Non-circulating	SCWST	02
+Non-circulating	SCWST	03
+Standard Loan	SCWST	01
+Internet	SCWST	04
+Non-circulating	SCYOU	02
+Non-circulating	SCYOU	03
+Standard Loan	SCYOU	01
+Reserve 4 Hour	SCYOU	20
+"Reserve 4 Hour, due at closing"	SCYOU	21
+Reserve 1 Week	SCYOU	25
+Semester	SCYOU	66
+4 Week	SCYOU	10
+1 Week	SCYOU	11
+1 Week	SCYOU	12
+4 Week	SCYOU	13
+Internet	SCYOU	04
+Standard Loan	UMDML	01
+Equipment 4 Hour	UMDML	58
+Equipment 1 Hour	UMDML	52
+Equipment 3 Day	UMDML	53
+Equipment 3 Day	UMDML	54
+Equipment 3 Day	UMDML	55
+Equipment 3 Day	UMDML	56
+Equipment 3 Day	UMDML	57
+Non-Circulating	UMDUB	02
+Non-circulating	UMDUB	03
+Non-circulating	UMDUB	13
+Standard Loan	UMDUB	01
+1 Week	UMDUB	11
+1 Week	UMDUB	12
+4 Week	UMDUB	06
+4 Week	UMDUB	20
+4 Week	UMDUB	22
+4 Week	UMDUB	25
+4 Week	UMDUB	27
+Limited	UMDUB	07
+Comm Catalog	UMDUB	28
+Internet	UMDUB	04
+Non-circulating	UMFAC	03
+Non-circulating	UMFAC	13
+Standard Loan	UMFAC	01
+Non-circulating	UMFCD	03
+Non-circulating	UMFCD	13
+Standard Loan	UMFCD	01
+4 Week	UMFCD	06
+4 Week	UMFCD	20
+4 Week	UMFCD	22
+4 Week	UMFCD	25
+4 Week	UMFCD	27
+Standard Loan	UMIDA	01
+Non-circulating	UMIDA	02
+Reserve 4 Hour	UMIDA	31
+1 Week	UMIDA	11
+1 Week	UMIDA	12
+Equipment 3 Day	UMIDA	53
+Equipment 3 Day	UMIDA	54
+Equipment 3 Day	UMIDA	55
+Equipment 3 Day	UMIDA	57
+Non-circulating	UMIMA	03
+Non-circulating	UMIMA	13
+Standard Loan	UMMDA	01
+Non-circulating	UMMDA	02
+Reserve 4 Hour	UMMDA	31
+1 Week	UMMDA	11
+1 Week	UMMDA	12
+1 Week	UMMDA	06
+4 Week	UMMDA	20
+4 Week	UMMDA	17
+4 Week	UMMDA	22
+Equipment 4 Hour	UMMDA	58
+Equipment 4 Hour	UMMDA	52
+Equipment 3 Day	UMMDA	53
+Equipment 3 Day	UMMDA	54
+Equipment 3 Day	UMMDA	55
+Equipment 3 Day	UMMDA	56
+Equipment 3 Day	UMMDA	57
+Non-circulating	UMSCA	03
+Non-circulating	UMSCA	13
+Non-circulating	UMSCI	03
+Non-circulating	UMSCI	13
+Standard Loan	UMSCI	01
+1 Week	UMSCI	11
+1 Week	UMSCI	12
+4 Week	UMSCI	06
+4 Week	UMSCI	20
+4 Week	UMSCI	22
+4 Week	UMSCI	25
+4 Week	UMSCI	27
+Internet	UMSCI	04
+Reserve 4 Hour	UMDUB	31
+Non-circulating	*	*
+1 Week	ACASP	10
+Standard Loan	ACFST	05
+Reserve 4 Hour	ACFST	21
+Reserve 4 Hour	ACMUS	21
+Non-circulating	ACRUS	02
+Non-circulating	ACRUS	03
+Reserve 4 Hour	ACSCI	21
+Standard Loan	FCANN	01
+Non-circulating	FCANN	02
+Non-circulating	FCANN	11
+Limited	FCANN	13
+Standard Loan	FCDPT	01
+Non-circulating	FCDPT	02
+Non-circulating	FCDPT	11
+Limited	FCDPT	13
+Internet	FCWWW	04
+Standard Loan	HCLIB	05
+Limited	HCLIB	06
+Limited	HCLIB	07
+Equipment 3 Day	HCLIB	16
+1 Week	HCLIB	18
+1 Week	HCLIB	21
+1 Week	MHLRC	15
+Non-circulating	REN	02
+Standard Loan	SCJOS	05
+Reserve 1 Day	SCJOS	24
+Reserve 1 Day	SCNLS	22
+Reserve 1 Day	SCNLS	24
+Limited	SCSPC	11
+Limited	SCSPC	12
+Standard Loan	SCYOU	05
+Non-circulating	UMDUB	05
+Non-circulating	UMDUB	14
+1 Week	UMDUB	21
+Non-circulating	UMDUB	24
+4 Week	UMMDA	15
+4 Week	UMMDA	16
+Standard Loan	UMMDA	32
+Reserve 4 Hour	UMMDA	35
+Reserve 4 Hour	UMMDA	36
+Non-circulating	UMSCI	14
+Non-circulating	UMSCI	16
+Non-circulating	YMAIN	01
+Non-circulating	YMAIN	02
+Non-circulating	ACMUS	02
+Standard Loan	MHPSL	10
+Reserve 3 Day	SCNLS	23
+Non-circulating	UMIMA	02
+Non-circulating	UMSCA	02
+Non-circulating	UMSCI	02
+Non-circulating	UMSCA	25
+Standard Loan	HCASC	15
+Non-circulating	MHSKM	14
+Non-circulating	MHASC	01
+1 Week	MHLIB	19
+Non-circulating	MHASC	14
+Reserve 1 Day	SCJOS	21

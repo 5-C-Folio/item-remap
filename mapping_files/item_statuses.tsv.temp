@@ -1,0 +1,707 @@
+Sublibrary	Z30_item_process_status	Aleph process name	folio status Name
+*	*	*	Available
+*	SU	Suppressed	Unavailable
+UMDUB	PS	-	In process
+MHLIB	TR	14 Day Loan	Unknown
+MHSKM	HT	Access Online via HathiTrust	Unknown
+MHASC	HT	Access Online via HathiTrust	Unknown
+MHLIB	HT	Access Online via HathiTrust	Unknown
+MHLRC	HT	Access Online via HathiTrust	Unknown
+MHPSL	HT	Access Online via HathiTrust	Unknown
+SCJOS	HT	Hathi Trust	Unknown
+SCNLS	AR	Arrived	Available
+SCHIL	AR	Arrived	Available
+SCJOS	AR	Arrived	Available
+SCYOU	AR	Arrived	Available
+SCWST	AR	Arrived	Available
+SCSPC	AR	Arrived	Available
+SCANN	AR	Arrived	Available
+ACFST	AR	Arrived	Available
+ACSCI	AR	Arrived	Available
+ACMUS	AR	Arrived	Available
+UMDUB	AR	Arrived	Available
+UMSCI	AR	Arrived	Available
+UMIDA	AR	Arrived	Available
+HCLIB	AR	Arrived	Available
+MHASC	AR	Arrived	Available
+MHLIB	AR	Arrived	Available
+MHLIB	AR	Arrived	Available
+MHPSL	AR	Arrived	Available
+MHPSL	AR	Arrived	Available
+SCHIL	ZZ	Ask at Circulation Desk	Restricted
+SCJOS	ZZ	Ask at Circulation Desk	Restricted
+SCYOU	ZZ	Ask at Circulation Desk	Restricted
+SCSPC	ZZ	Ask at Circulation Desk	Restricted
+SCANN	ZZ	Ask at Circulation Desk	Restricted
+UMDUB	DR	Ask at Du Bois Reference	Restricted
+HCLIB	ZZ	Ask at Ref Desk	Restricted
+UMSCI	SR	Ask at Science Service Desk	Restricted
+UMIDA	SR	Ask at Science Service Desk	Restricted
+SCNLS	BD	At Bindery	In process
+SCHIL	BD	At Bindery	In process
+SCJOS	BD	At Bindery	In process
+SCYOU	BD	At Bindery	In process
+SCWST	BD	At Bindery	In process
+SCSPC	BD	At Bindery	In process
+SCANN	BD	At Bindery	In process
+ACFST	BD	At Bindery	In process
+ACSCI	BD	At Bindery	In process
+ACMUS	BD	At Bindery	In process
+UMDUB	SB	At Bindery	In process
+UMSCI	SB	At Bindery	In process
+UMMDA	SB	At Bindery	In process
+UMFCD	BD	At Bindery	In process
+UMIDA	SB	At Bindery	In process
+HCASC	BD	At Bindery	In process
+HCLIB	BD	At Bindery	In process
+MHASC	BD	At Bindery	In process
+MHLIB	BD	At Bindery	In process
+FCDPT	SB	At Bindery	In process
+UMDPT	SB	At Bindery	In process
+FCANN	SB	At Bindery	In process
+YMAIN	SB	At Bindery	In process
+UMDUB	NI	Available	Available
+UMSCI	NI	Available	Available
+UMMDA	NI	Available	Available
+UMFAC	NI	Available	Available
+UMSCA	NI	Available	Available
+UMIMA	NI	Available	Available
+UMIDA	NI	Available	Available
+UMDUB	AM	Available Upon Request	Restricted
+UMMDA	AM	Available Upon Request	Restricted
+UMDUB	FP	Bill Paid	Lost and paid
+UMMDA	FP	Bill Paid	Lost and paid
+SCNLS	BL	Billed	Long missing
+SCHIL	BL	Billed	Long missing
+SCJOS	BL	Billed	Long missing
+SCYOU	BL	Billed	Long missing
+SCWST	BL	Billed	Long missing
+SCSPC	BL	Billed	Long missing
+SCANN	BL	Billed	Long missing
+HCMED	BL	Billed	Long missing
+HCLIB	BL	Billed	Long missing
+MHLIB	BL	Billed	Long missing
+MHPSL	BL	Billed	Long missing
+MHLIB	LP	Billed and Paid	Lost and paid
+MHLIB	LP	Billed and Paid	Lost and paid
+MHLRC	LP	Billed and Paid	Lost and paid
+MHPSL	LP	Billed and Paid	Lost and paid
+MHPSL	LP	Billed and Paid	Lost and paid
+MHPSL	LP	Billed and Paid	Lost and paid
+MHPSL	BD	Bindery	In process
+SCNLS	BP	Bindery Prep	In process
+SCHIL	BP	Bindery Prep	In process
+SCJOS	BP	Bindery Prep	In process
+SCYOU	BP	Bindery Prep	In process
+SCWST	BP	Bindery Prep	In process
+SCSPC	BP	Bindery Prep	In process
+SCANN	BP	Bindery Prep	In process
+ACFST	BP	Bindery Prep	In process
+ACSCI	BP	Bindery Prep	In process
+ACMUS	BP	Bindery Prep	In process
+UMDUB	BP	Bindery Prep	In process
+UMSCI	BP	Bindery Prep	In process
+UMIDA	BP	Bindery Prep	In process
+HCASC	BP	Bindery Prep	In process
+HCLIB	BP	Bindery Prep	In process
+MHPSL	BP	Bindery Prep	In process
+SCNLS	CA	Cancelled	Order closed
+SCHIL	CA	Cancelled	Order closed
+SCJOS	CA	Cancelled	Order closed
+SCTYO	CA	Cancelled	Order closed
+SCYOU	CA	Cancelled	Order closed
+SCWST	CA	Cancelled	Order closed
+SCSPC	CA	Cancelled	Order closed
+SCANN	CA	Cancelled	Order closed
+ACFST	CA	Cancelled	Order closed
+ACSCI	CA	Cancelled	Order closed
+ACMUS	CA	Cancelled	Order closed
+ACASP	CA	Cancelled	Order closed
+HCMED	CA	Cancelled	Order closed
+HCLIB	CA	Cancelled	Order closed
+MHLIB	CA	Cancelled	Order closed
+MHPSL	CA	Cancelled	Order closed
+SCNLS	CL	Claimed	On order
+SCHIL	CL	Claimed	On order
+SCJOS	CL	Claimed	On order
+SCYOU	CL	Claimed	On order
+SCWST	CL	Claimed	On order
+SCSPC	CL	Claimed	On order
+SCANN	CL	Claimed	On order
+ACFST	CL	Claimed	On order
+ACSCI	CL	Claimed	On order
+ACMUS	CL	Claimed	On order
+ACASP	CL	Claimed	On order
+UMSCI	IC	Claimed	On order
+UMIDA	IC	Claimed	On order
+HCMED	CL	Claimed	On order
+HCLIB	CL	Claimed	On order
+MHLIB	CL	Claimed	On order
+MHPSL	CL	Claimed	On order
+SCNLS	CR	Claims Returned	Claimed returned
+SCHIL	CR	Claims Returned	Claimed returned
+SCJOS	CR	Claims Returned	Claimed returned
+SCYOU	CR	Claims Returned	Claimed returned
+SCWST	CR	Claims Returned	Claimed returned
+SCSPC	CR	Claims Returned	Claimed returned
+SCANN	CR	Claims Returned	Claimed returned
+ACFST	CR	Claims Returned	Claimed returned
+ACSCI	CR	Claims Returned	Claimed returned
+ACMUS	CR	Claims Returned	Claimed returned
+ACMED	CR	Claims Returned	Claimed returned
+ACITS	CR	Claims Returned	Claimed returned
+UMDUB	FC	Claims Returned	Claimed returned
+UMSCI	FC	Claims Returned	Claimed returned
+UMMDA	FC	Claims Returned	Claimed returned
+UMFAC	FC	Claims Returned	Claimed returned
+UMIDA	FC	Claims Returned	Claimed returned
+HCLIB	CR	Claims Returned	Claimed returned
+MHLIB	CR	Claims returned	Claimed returned
+SCNLS	CN	Conservation	In process
+SCHIL	CN	Conservation	In process
+SCJOS	CN	Conservation	In process
+SCYOU	CN	Conservation	In process
+SCWST	CN	Conservation	In process
+SCSPC	CN	Conservation	In process
+SCANN	CN	Conservation	In process
+MHLIB	CN	Conservation	In process
+MHLIB	DW	Damaged/Withdrawn	Withdrawn
+UMDUB	IL	Direct Lending	Available
+UMSCI	IO	Direct Lending (out)	Checked out
+UMIDA	IO	Direct Lending (out)	Checked out
+UMDUB	DS	Discarded	Withdrawn
+UMSCI	DS	Discarded	Withdrawn
+UMMDA	DS	Discarded	Withdrawn
+UMIDA	DS	Discarded	Withdrawn
+FCDPT	DS	Discarded	Withdrawn
+UMDPT	DS	Discarded	Withdrawn
+FCANN	DS	Discarded	Withdrawn
+YMAIN	DS	Discarded	Withdrawn
+HCASC	SH	Div III Showcase	Unavailable
+UMDUB	LO	III Lost	Long missing
+UMSCI	LO	III Lost	Long missing
+UMMDA	LO	III Lost	Long missing
+UMIDA	LO	III Lost	Long missing
+SCNLS	IP	In Process	In process
+SCHIL	IP	In Process	In process
+SCJOS	IP	In Process	In process
+SCYOU	IP	In Process	In process
+SCWST	IP	In Process	In process
+SCSPC	IP	In Process	In process
+SCANN	IP	In Process	In process
+ACFST	IP	In Process	In process
+ACSCI	IP	In Process	In process
+ACMUS	IP	In Process	In process
+ACASP	IP	In Process	In process
+ACMED	IP	In Process	In process
+ACITS	IP	In Process	In process
+UMDUB	PL	In Process	In process
+UMSCI	PL	In Process	In process
+UMMDA	PL	In Process	In process
+UMSCA	PL	In Process	In process
+UMIMA	PL	In Process	In process
+UMIDA	PL	In Process	In process
+HCFP	IP	In Process	In process
+HCASC	IP	In Process	In process
+HCMED	IP	In Process	In process
+HCLIB	IP	In Process	In process
+MHLIB	IP	In Process	In process
+MHLIB	IP	In Process	In process
+MHPSL	IP	In Process	In process
+MHPSL	IP	In Process	In process
+YMAIN	DI	In Process	In process
+YMAIN	PC	In Process	In process
+UMDUB	AI	In Process (Annex Inhouse)	In process
+UMDUB	AO	In Process (Annex Sent)	In process (non-requestable)
+UMDUB	PA	In Process (Approval)	In process
+UMSCI	PA	In Process (Approval)	In process
+UMMDA	PA	In Process (Approval)	In process
+UMIDA	PA	In Process (Approval)	In process
+UMSCA	PC	In Process (Cat)	In process
+UMSCA	PN	In Process (Cat)	In process
+UMIMA	PN	In Process (Cat)	In process
+UMDUB	IP	In Process (Cataloging)	In process
+UMDUB	PC	In Process (Cataloging)	In process
+UMDUB	PN	In Process (Cataloging)	In process
+UMDUB	PW	In Process (Cataloging)	In process
+UMSCI	IP	In Process (Cataloging)	In process
+UMSCI	PC	In Process (Cataloging)	In process
+UMSCI	PN	In Process (Cataloging)	In process
+UMSCI	PW	In Process (Cataloging)	In process
+UMMDA	IP	In Process (Cataloging)	In process
+UMMDA	PC	In Process (Cataloging)	In process
+UMMDA	PN	In Process (Cataloging)	In process
+UMMDA	PW	In Process (Cataloging)	In process
+UMFCD	PC	In Process (Cataloging)	In process
+UMDML	PC	In Process (Cataloging)	In process
+UMIDA	IP	In Process (Cataloging)	In process
+UMIDA	PC	In Process (Cataloging)	In process
+UMIDA	PN	In Process (Cataloging)	In process
+UMIDA	PW	In Process (Cataloging)	In process
+FCDPT	PC	In Process (Cataloging)	In process
+UMDPT	PC	In Process (Cataloging)	In process
+FCANN	PC	In Process (Cataloging)	In process
+REN	PC	In Process (Cataloging)	In process
+UMDUB	DP	In Process (From Scanning)	In process
+UMSCI	DP	In Process (From Scanning)	In process
+UMMDA	DP	In Process (From Scanning)	In process
+UMFAC	DP	In Process (From Scanning)	In process
+UMSCA	DP	In Process (From Scanning)	In process
+UMIDA	DP	In Process (From Scanning)	In process
+UMDUB	BH	In Process (pre-bindery)	In process
+UMSCI	BH	In Process (pre-bindery)	In process
+UMIDA	BH	In Process (pre-bindery)	In process
+UMDUB	PH	In Process (Repair)	In process
+UMSCI	PH	In Process (Repair)	In process
+UMMDA	PH	In Process (Repair)	In process
+UMIDA	PH	In Process (Repair)	In process
+UMDUB	DI	In Process (To Scanning)	In process
+UMSCI	DI	In Process (To Scanning)	In process
+UMMDA	DI	In Process (To Scanning)	In process
+UMFAC	DI	In Process (To Scanning)	In process
+UMSCA	DI	In Process (To Scanning)	In process
+UMIDA	DI	In Process (To Scanning)	In process
+FCDPT	DI	In Process (To Scanning)	In process
+UMDPT	DI	In Process (To Scanning)	In process
+FCANN	DI	In Process (To Scanning)	In process
+MHSKM	IS	In Process for Skinner Museum	In process (non-requestable)
+MHASC	IS	In Process for Spec. Coll.	In process (non-requestable)
+MHLIB	IS	In Process for Spec. Coll.	In process (non-requestable)
+UMSCA	PH	In Process(Repair)	In process
+UMIMA	PH	In Process(Repair)	In process
+UMIMA	PC	In Processs(Cat)	In process
+UMDUB	PR	In Repair	In process
+UMSCI	PR	In Repair	In process
+UMMDA	PR	In Repair	In process
+UMDML	PR	In Repair	In process
+UMIDA	PR	In Repair	In process
+FCDPT	PR	In Repair	In process
+UMDPT	PR	In Repair	In process
+FCANN	PR	In Repair	In process
+YMAIN	PR	In Repair	In process
+UMDUB	IC	Issue Claimed	On order
+SCNLS	LN	Limited - no request	Available
+SCHIL	LN	Limited - no request	Available
+SCJOS	LN	Limited - no request	Available
+SCYOU	LN	Limited - no request	Available
+SCWST	LN	Limited - no request	Available
+SCANN	LN	Limited - no request	Available
+SCNLS	LO	Lost	Declared lost
+SCHIL	LO	Lost	Declared lost
+SCJOS	LO	Lost	Declared lost
+SCYOU	LO	Lost	Declared lost
+SCWST	LO	Lost	Declared lost
+SCSPC	LO	Lost	Declared lost
+SCANN	LO	Lost	Declared lost
+ACFST	LO	Lost	Declared lost
+ACSCI	LO	Lost	Declared lost
+ACDEP	LO	Lost	Declared lost
+ACMUS	LO	Lost	Declared lost
+ACASP	LO	Lost	Declared lost
+ACMED	LO	Lost	Declared lost
+ACITS	LO	Lost	Declared lost
+MHLIB	LO	Lost	Declared lost
+SCNLS	LP	Lost and Paid	Lost and paid
+SCHIL	LP	Lost and Paid	Lost and paid
+SCJOS	LP	Lost and Paid	Lost and paid
+SCYOU	LP	Lost and Paid	Lost and paid
+SCWST	LP	Lost and Paid	Lost and paid
+SCSPC	LP	Lost and Paid	Lost and paid
+SCANN	LP	Lost and Paid	Lost and paid
+HCLIB	LP	Lost and Paid	Lost and paid
+SCNLS	MI	Missing	Missing
+SCHIL	MI	Missing	Missing
+SCJOS	MI	Missing	Missing
+SCYOU	MI	Missing	Missing
+SCWST	MI	Missing	Missing
+SCSPC	MI	Missing	Missing
+SCANN	MI	Missing	Missing
+ACFST	MI	Missing	Missing
+ACSCI	MI	Missing	Missing
+ACDEP	MI	Missing	Missing
+ACMUS	MI	Missing	Missing
+ACASP	MI	Missing	Missing
+ACMED	MI	Missing	Missing
+ACITS	MI	Missing	Missing
+UMDUB	SF	Missing	Missing
+UMDUB	SH	Missing	Missing
+UMDUB	SS	Missing	Missing
+UMDUB	ST	Missing	Missing
+UMSCI	SF	Missing	Missing
+UMSCI	SH	Missing	Missing
+UMSCI	SS	Missing	Missing
+UMSCI	ST	Missing	Missing
+UMMDA	SF	Missing	Missing
+UMMDA	SH	Missing	Missing
+UMMDA	SS	Missing	Missing
+UMMDA	ST	Missing	Missing
+UMIDA	SF	Missing	Missing
+UMIDA	SH	Missing	Missing
+UMIDA	SS	Missing	Missing
+UMIDA	ST	Missing	Missing
+HCFP	MI	Missing	Missing
+HCASC	MI	Missing	Missing
+HCMED	MI	Missing	Missing
+HCLIB	MI	Missing	Missing
+MHSKM	MI	Missing	Missing
+MHASC	MI	Missing	Missing
+MHLIB	DM	Missing	Missing
+MHLIB	KM	Missing	Missing
+MHLIB	MI	Missing	Missing
+MHLRC	MI	Missing	Missing
+MHPSL	DM	Missing	Missing
+MHPSL	KM	Missing	Missing
+MHPSL	MI	Missing	Missing
+FCDPT	SF	Missing	Missing
+FCDPT	SH	Missing	Missing
+UMDPT	SF	Missing	Missing
+UMDPT	SH	Missing	Missing
+FCANN	SF	Missing	Missing
+FCANN	SH	Missing	Missing
+YMAIN	SF	Missing	Missing
+YMAIN	SH	Missing	Missing
+UMDUB	IM	Missing (Unbound Issue)	Missing
+UMSCI	IM	Missing (Unbound Issue)	Missing
+UMIDA	IM	Missing (Unbound Issue)	Missing
+MHLIB	NR	Never received	Available
+MHPSL	NR	Never received	Available
+SCHIL	DI	New Book Shelf	Available
+SCJOS	DI	New Book Shelf	Available
+ACFST	DI	New Book Shelf	Available
+ACSCI	DI	New Book Shelf	Available
+ACMUS	DI	New Book Shelf	Available
+ACASP	DI	New Book Shelf	Available
+UMDUB	NB	New Book Shelf	Available
+MHLIB	NB	New Book Shelves	Available
+HCMED	NB	New Books Shelf	Available
+HCLIB	NB	New Books Shelf	Available
+SCNLS	NA	Not Arrived	On order
+SCHIL	NA	Not Arrived	On order
+SCJOS	NA	Not Arrived	On order
+SCYOU	NA	Not Arrived	On order
+SCWST	NA	Not Arrived	On order
+SCSPC	NA	Not Arrived	On order
+SCANN	NA	Not Arrived	On order
+ACASP	NA	Not Arrived	On order
+ACDEP	NA	Not Arrived	On order
+ACFST	NA	Not Arrived	On order
+ACSCI	NA	Not Arrived	On order
+ACMUS	NA	Not Arrived	On order
+UMDUB	NA	Not Arrived	On order
+UMSCI	NA	Not Arrived	On order
+UMIDA	NA	Not Arrived	On order
+HCLIB	NA	Not Arrived	On order
+MHASC	NA	Not arrived	On order
+MHLIB	NA	Not arrived	On order
+MHPSL	NA	Not arrived	On order
+SCNLS	NP	Not Published	Unavailable
+SCHIL	NP	Not Published	Unavailable
+SCJOS	NP	Not Published	Unavailable
+SCYOU	NP	Not Published	Unavailable
+SCWST	NP	Not Published	Unavailable
+SCSPC	NP	Not Published	Unavailable
+SCANN	NP	Not Published	Unavailable
+UMDUB	NP	Not Published	Unavailable
+UMSCI	NP	Not Published	Unavailable
+UMIDA	NP	Not Published	Unavailable
+MHASC	NP	Not published	Unavailable
+MHLIB	NP	Not published	Unavailable
+MHPSL	NP	Not published	Unavailable
+SCNLS	DI	On Display	Unavailable
+SCYOU	DI	On Display	Unavailable
+SCWST	DI	On Display	Unavailable
+SCSPC	DI	On Display	Unavailable
+SCANN	DI	On Display	Unavailable
+UMDUB	DC	On Display	Unavailable
+UMSCI	DC	On Display	Unavailable
+UMMDA	DC	On Display	Unavailable
+UMFAC	DC	On Display	Unavailable
+UMSCA	DC	On Display	Unavailable
+UMFCD	DC	On Display	Unavailable
+UMIMA	DC	On Display	Unavailable
+UMIDA	DC	On Display	Unavailable
+HCASC	DI	On Display	Unavailable
+HCLIB	DI	On Display	Unavailable
+MHLIB	DI	On Display	Unavailable
+ACFST	OE	On Exhibit	Unavailable
+ACSCI	OE	On Exhibit	Unavailable
+ACDEP	OE	On Exhibit	Unavailable
+ACMUS	OE	On Exhibit	Unavailable
+ACASP	OE	On Exhibit	Unavailable
+HCASC	GA	On Exhibit in Gallery	Unavailable
+HCLIB	GA	On Exhibit in Gallery	Unavailable
+UMDUB	IO	On Loan to Another Library	Unavailable
+SCNLS	OO	On Order	On order
+SCHIL	OO	On Order	On order
+SCJOS	OO	On Order	On order
+SCYOU	OO	On Order	On order
+SCWST	OO	On Order	On order
+SCSPC	OO	On Order	On order
+SCANN	OO	On Order	On order
+ACFST	OO	On Order	On order
+ACSCI	OO	On Order	On order
+ACMUS	OO	On Order	On order
+ACASP	OO	On Order	On order
+ACMED	OO	On Order	On order
+ACITS	OO	On Order	On order
+UMDUB	OO	On Order	On order
+UMSCI	OO	On Order	On order
+UMMDA	OO	On Order	On order
+UMIDA	OO	On Order	On order
+HCMED	OO	On Order	On order
+HCLIB	OO	On Order	On order
+MHASC	OO	On Order	On order
+MHLIB	OO	On Order	On order
+MHLIB	OO	On Order	On order
+MHPSL	OO	On Order	On order
+MHPSL	OO	On Order	On order
+SCNLS	RP	On Repair	In process
+SCHIL	RP	On Repair	In process
+SCJOS	RP	On Repair	In process
+SCYOU	RP	On Repair	In process
+SCWST	RP	On Repair	In process
+SCSPC	RP	On Repair	In process
+SCANN	RP	On Repair	In process
+ACFST	RP	On Repair	In process
+ACSCI	RP	On Repair	In process
+ACDEP	RP	On Repair	In process
+ACMUS	RP	On Repair	In process
+ACASP	RP	On Repair	In process
+ACMED	RP	On Repair	In process
+ACITS	RP	On Repair	In process
+HCFP	RP	On Repair	In process
+HCASC	RP	On Repair	In process
+HCMED	RP	On Repair	In process
+HCLIB	RP	On Repair	In process
+MHLIB	RP	On Repair	In process
+MHLIB	RP	On Repair	In process
+MHLIB	RP	On Repair	In process
+MHLRC	RP	On Repair	In process
+MHPSL	RP	On Repair	In process
+MHPSL	RP	On Repair	In process
+SCNLS	RA	On reserve at AC	Available
+SCHIL	RA	On reserve at AC	Available
+SCJOS	RA	On reserve at AC	Available
+SCYOU	RA	On reserve at AC	Available
+SCWST	RA	On reserve at AC	Available
+SCSPC	RA	On reserve at AC	Available
+SCANN	RA	On reserve at AC	Available
+ACFST	RA	On reserve at AC	Available
+ACSCI	RA	On reserve at AC	Available
+ACDEP	RA	On reserve at AC	Available
+ACMUS	RA	On reserve at AC	Available
+ACASP	RA	On reserve at AC	Available
+UMDUB	RA	On reserve at AC	Available
+UMSCI	RA	On reserve at AC	Available
+UMMDA	RA	On reserve at AC	Available
+UMFAC	RA	On reserve at AC	Available
+UMFCD	RA	On reserve at AC	Available
+UMIDA	RA	On reserve at AC	Available
+HCMED	RA	On reserve at AC	Available
+HCLIB	RA	On reserve at AC	Available
+MHLIB	RA	On reserve at AC	Available
+MHPSL	RA	On reserve at AC	Available
+FCDPT	RA	On reserve at AC	Available
+UMDPT	RA	On Reserve at AC	Available
+SCNLS	RH	On reserve at HC	Available
+SCHIL	RH	On reserve at HC	Available
+SCJOS	RH	On reserve at HC	Available
+SCYOU	RH	On reserve at HC	Available
+SCWST	RH	On reserve at HC	Available
+SCSPC	RH	On reserve at HC	Available
+SCANN	RH	On reserve at HC	Available
+ACFST	RH	On reserve at HC	Available
+ACSCI	RH	On reserve at HC	Available
+ACDEP	RH	On reserve at HC	Available
+ACMUS	RH	On reserve at HC	Available
+ACASP	RH	On reserve at HC	Available
+UMDUB	RH	On reserve at HC	Available
+UMSCI	RH	On reserve at HC	Available
+UMMDA	RH	On reserve at HC	Available
+UMFAC	RH	On reserve at HC	Available
+UMFCD	RH	On reserve at HC	Available
+UMIDA	RH	On reserve at HC	Available
+HCMED	RH	On reserve at HC	Available
+HCLIB	RH	On reserve at HC	Available
+MHLIB	RH	On reserve at HC	Available
+MHPSL	RH	On reserve at HC	Available
+FCDPT	RH	On reserve at HC	Available
+UMDPT	RH	On Reserve at HC	Available
+SCNLS	RM	On reserve at MH	Available
+SCHIL	RM	On reserve at MH	Available
+SCJOS	RM	On reserve at MH	Available
+SCYOU	RM	On reserve at MH	Available
+SCWST	RM	On reserve at MH	Available
+SCSPC	RM	On reserve at MH	Available
+SCANN	RM	On reserve at MH	Available
+ACFST	RM	On reserve at MH	Available
+ACSCI	RM	On reserve at MH	Available
+ACDEP	RM	On reserve at MH	Available
+ACMUS	RM	On reserve at MH	Available
+ACASP	RM	On reserve at MH	Available
+UMDUB	RM	On reserve at MH	Available
+UMSCI	RM	On reserve at MH	Available
+UMMDA	RM	On reserve at MH	Available
+UMFAC	RM	On reserve at MH	Available
+UMFCD	RM	On reserve at MH	Available
+UMIDA	RM	On reserve at MH	Available
+HCMED	RM	On reserve at MH	Available
+HCLIB	RM	On reserve at MH	Available
+MHLIB	RM	On reserve at MH	Available
+MHPSL	RM	On reserve at MH	Available
+FCDPT	RM	On reserve at MH	Available
+UMDPT	RM	On Reserve at MH	Available
+SCNLS	RS	On reserve at SC	Available
+SCHIL	RS	On reserve at SC	Available
+SCJOS	RS	On reserve at SC	Available
+SCYOU	RS	On reserve at SC	Available
+SCWST	RS	On reserve at SC	Available
+SCSPC	RS	On reserve at SC	Available
+SCANN	RS	On reserve at SC	Available
+ACFST	RS	On reserve at SC	Available
+ACSCI	RS	On reserve at SC	Available
+ACDEP	RS	On reserve at SC	Available
+ACMUS	RS	On reserve at SC	Available
+ACASP	RS	On reserve at SC	Available
+UMDUB	RS	On reserve at SC	Available
+UMSCI	RS	On reserve at SC	Available
+UMMDA	RS	On reserve at SC	Available
+UMFAC	RS	On reserve at SC	Available
+UMFCD	RS	On reserve at SC	Available
+UMIDA	RS	On reserve at SC	Available
+HCMED	RS	On reserve at SC	Available
+HCLIB	RS	On reserve at SC	Available
+MHLIB	RS	On reserve at SC	Available
+MHPSL	RS	On reserve at SC	Available
+FCDPT	RS	On reserve at SC	Available
+UMDPT	RS	On Reserve at SC	Available
+SCNLS	RU	On reserve at UM	Available
+SCHIL	RU	On reserve at UM	Available
+SCJOS	RU	On reserve at UM	Available
+SCYOU	RU	On reserve at UM	Available
+SCWST	RU	On reserve at UM	Available
+SCSPC	RU	On reserve at UM	Available
+SCANN	RU	On reserve at UM	Available
+ACFST	RU	On reserve at UM	Available
+ACSCI	RU	On reserve at UM	Available
+ACDEP	RU	On reserve at UM	Available
+ACMUS	RU	On reserve at UM	Available
+ACASP	RU	On reserve at UM	Available
+UMDUB	RU	On reserve at UM	Available
+UMSCI	RU	On reserve at UM	Available
+UMMDA	RU	On reserve at UM	Available
+UMFAC	RU	On reserve at UM	Available
+UMFCD	RU	On reserve at UM	Available
+UMSCI	RU	On reserve at UM	Available
+HCMED	RU	On reserve at UM	Available
+HCLIB	RU	On reserve at UM	Available
+MHLIB	RU	On reserve at UM	Available
+MHPSL	RU	On reserve at UM	Available
+FCDPT	RU	On reserve at UM	Available
+UMDPT	RU	On Reserve at UM	Available
+UMDUB	CA	Order Cancelled	Order closed
+UMSCI	CA	Order Cancelled	Order closed
+UMMDA	CA	Order Cancelled	Order closed
+UMIDA	CA	Order Cancelled	Order closed
+UMSCI	DO	Out for Scanning	In process
+SCNLS	OP	Out of Print	Order closed
+SCHIL	OP	Out of Print	Order closed
+SCJOS	OP	Out of Print	Order closed
+SCYOU	OP	Out of Print	Order closed
+SCWST	OP	Out of Print	Order closed
+SCSPC	OP	Out of Print	Order closed
+SCANN	OP	Out of Print	Order closed
+UMDUB	OP	Out of Print	Order closed
+UMSCI	OP	Out of Print	Order closed
+UMMDA	OP	Out of Print	Order closed
+UMIDA	OP	Out of Print	Order closed
+HCLIB	OP	Out of Print	Order closed
+MHLIB	OP	Out of Print	Order closed
+MHPSL	OP	Out of Print	Order closed
+SCNLS	PR	Partial	Order closed
+SCHIL	PR	Partial	Order closed
+SCJOS	PR	Partial	Order closed
+SCYOU	PR	Partial	Order closed
+SCWST	PR	Partial	Order closed
+SCSPC	PR	Partial	Order closed
+SCANN	PR	Partial	Order closed
+UMDUB	PT	Partial	Order closed
+UMSCI	PT	Partial	Order closed
+UMIDA	PT	Partial	Order closed
+SCNLS	RE	Removed	Withdrawn
+SCHIL	RE	Removed	Withdrawn
+SCJOS	RE	Removed	Withdrawn
+SCYOU	RE	Removed	Withdrawn
+SCWST	RE	Removed	Withdrawn
+SCSPC	RE	Removed	Withdrawn
+SCANN	RE	Removed	Withdrawn
+ACDEP	RE	Removed	Withdrawn
+ACRUS	RE	Removed	Withdrawn
+ACMED	RE	Removed	Withdrawn
+ACITS	RE	Removed	Withdrawn
+UMDUB	RE	Removed	Withdrawn
+UMSCI	RE	Removed	Withdrawn
+UMMDA	RE	Removed	Withdrawn
+UMIDA	RE	Removed	Withdrawn
+MHLIB	RE	Removed	Withdrawn
+MHPSL	RE	Removed	Withdrawn
+FCDPT	RE	Removed	Withdrawn
+UMDPT	RE	Removed	Withdrawn
+FCANN	RE	Removed	Withdrawn
+YMAIN	RE	Removed	Withdrawn
+YMAIN	RE	Removed	Withdrawn
+SCNLS	RO	Replacement Ordered	Unavailable
+SCHIL	RO	Replacement Ordered	Unavailable
+SCJOS	RO	Replacement Ordered	Unavailable
+SCYOU	RO	Replacement Ordered	Unavailable
+SCWST	RO	Replacement Ordered	Unavailable
+SCSPC	RO	Replacement Ordered	Unavailable
+SCANN	RO	Replacement Ordered	Unavailable
+ACFST	RO	Replacement Ordered	Unavailable
+ACSCI	RO	Replacement Ordered	Unavailable
+ACMUS	RO	Replacement Ordered	Unavailable
+ACMED	RO	Replacement Ordered	Unavailable
+ACITS	RO	Replacement Ordered	Unavailable
+HCMED	RO	Replacement Ordered	Unavailable
+HCLIB	RO	Replacement Ordered	Unavailable
+MHLIB	RO	Replacement Ordered	Unavailable
+MHLIB	RO	Replacement Ordered	Unavailable
+MHPSL	RO	Replacement Ordered	Unavailable
+MHPSL	RO	Replacement Ordered	Unavailable
+MHLIB	RQ	Requestable	Available
+MHPSL	RQ	Requestable	Available
+HCFP	RE	Restricted	Unavailable
+HCMED	RE	Restricted	Unavailable
+HCLIB	ST	Storage	Missing
+HCMED	TD	Transfer to Depository	Available
+HCLIB	TD	Transfer to Depository	Available
+MHLIB	TD	Transferred to Depository	Available
+MHPSL	TD	Transferred to Depository	Available
+SCNLS	UN	Unavailable	Unavailable
+SCHIL	UN	Unavailable	Unavailable
+SCJOS	UN	Unavailable	Unavailable
+SCYOU	UN	Unavailable	Unavailable
+SCWST	UN	Unavailable	Unavailable
+SCSPC	UN	Unavailable	Unavailable
+SCANN	UN	Unavailable	Unavailable
+UMDUB	UN	Unavailable	Unavailable
+UMSCI	UN	Unavailable	Unavailable
+UMMDA	UN	Unavailable	Unavailable
+UMSCA	UD	Unavailable	Unavailable
+UMIMA	UN	Unavailable	Unavailable
+UMIDA	UN	Unavailable	Unavailable
+UMSCA	UN	Unavailable (No OPAC)	Unavailable
+UMDUB	MI	Withdrawn	Withdrawn
+UMSCI	MI	Withdrawn	Withdrawn
+UMMDA	MI	Withdrawn	Withdrawn
+UMSCA	MI	Withdrawn	Withdrawn
+UMDML	MI	Withdrawn	Withdrawn
+UMIDA	MI	Withdrawn	Withdrawn
+FCDPT	MI	Withdrawn	Withdrawn
+UMDPT	MI	Withdrawn	Withdrawn
+FCANN	MI	Withdrawn	Withdrawn
+YMAIN	MI	Withdrawn	Withdrawn
+UMDUB	WD	Withdrawn (Yearly)	Withdrawn
+UMSCI	WD	Withdrawn (Yearly)	Withdrawn
+UMMDA	WD	Withdrawn (Yearly)	Withdrawn
+UMIDA	WD	Withdrawn (Yearly)	Withdrawn

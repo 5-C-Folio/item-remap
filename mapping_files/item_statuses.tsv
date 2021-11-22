@@ -1,0 +1,60 @@
+legacy_code	folio_name
+AR	Available
+DI	Available
+NR	Available
+NB	Available
+NI	Available
+ZZ	Restricted
+DR	Restricted
+HT	Unknown
+BD	In process
+BH	In process
+BP	In process
+CN	In process
+IS	In process (non-requestable)
+DP	In process
+IP	In process
+PA	In process
+PC	In process
+PH	In process
+PN	In process
+PR	In process
+PS	In process
+PW	In process
+RP	In process
+SB	In process
+AM	Restricted
+SR	Restricted
+TR	Unknown
+NP	Unavailable
+DC	Unavailable
+OE	Unavailable
+UN	Unavailable
+RO	Unavailable
+BL	Long missing
+SU	Unavailable
+LP	Lost and paid
+CA	Unknown
+CA	Unknown
+OP	Unknown
+PT	Unknown
+GA	Unavailable
+IO	Unavailable
+CL	Unknown
+OO	Unknown
+NA	Unknown
+CR	Claimed returned
+FC	Claimed returned
+FP	Lost and paid
+DS	Withdrawn
+DW	Withdrawn
+WD	Withdrawn
+RE	Withdrawn
+MI	Missing
+IM	Missing
+SS	Missing
+ST	Missing
+SF	Missing
+SH	Missing
+LO	Lost and paid
+SE	Missing
