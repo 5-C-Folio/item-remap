@@ -175,8 +175,8 @@ def parse(row):
     row.update({'loanType': loantypeLookup})
     item_policy = item_policy_map.match("legacy_code", "folio_name", row["Z30_ITEM_PROCESS_STATUS"], "Available")
     row.update({"item_status": item_policy})
-    #include the OR if you want both temp and non temp
-    if row["Z30_TEMP_LOCATION"] == "Y" or row["Z30_TEMP_LOCATION"] == "N":
+    #include the or row["Z30_TEMP_LOCATION"] == "N" if you want both temp and non temp
+    if row["Z30_TEMP_LOCATION"] == "Y":
         call_number_type = callnoType(row["Z30_CALL_NO_TYPE"])
         row.update({"Z30_CALL_NO_TYPE": call_number_type})
         # hacky change to not include call number if it's not a temp_location
@@ -354,7 +354,7 @@ if __name__ == "__main__":
                "Z30_PROCESS_STATUS_DATE",
                "Z30_UPD_TIME_STAMP",
                "prefix",
-               "call_number",
+               "call_number", 
                "suffix",
                "folio_location",
                "loanType",

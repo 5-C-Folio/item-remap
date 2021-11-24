@@ -32,17 +32,9 @@ OE	Unavailable
 UN	Unavailable
 RO	Unavailable
 BL	Long missing
-SU	Unavailable
 LP	Lost and paid
-CA	Unknown
-CA	Unknown
-OP	Unknown
-PT	Unknown
 GA	Unavailable
 IO	Unavailable
-CL	Unknown
-OO	Unknown
-NA	Unknown
 CR	Claimed returned
 FC	Claimed returned
 FP	Lost and paid
@@ -57,4 +49,3 @@ ST	Missing
 SF	Missing
 SH	Missing
 LO	Lost and paid
-SE	Missing
