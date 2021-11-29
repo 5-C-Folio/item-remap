@@ -50,6 +50,7 @@ class dictMap:
         self.file = file
         self.locMap = None
         self.map_dict = None
+        self.lookup_dict={}
         self.read_map()
 
     def __str__(self):
@@ -67,7 +68,7 @@ class dictMap:
 
 
     def dictionify(self, alephKey,  folioValue, extraAlephKey='',):
-        self.lookup_dict={}
+        
         with open(self.file, 'r') as mapfile:
             read_map = DictReader(mapfile, delimiter='\t')
             for row in read_map:
@@ -141,6 +142,12 @@ class singleMatch(dictMap):
                return x
 
 
+    def matchx(self, legCode, fallback):
+        x = self.lookup_dict[legCode]
+        print(x)
+        return(x)
+
+
 def lc_parser(callNo):
     # split call numbers.  if it's an H or I, it's the main call number, if k, then prefix. Anything else suffix.  Return
     callnosplit = callNo.split('$$')
@@ -182,9 +189,8 @@ def parse(row):
     row.update(barcode)
     materialLookup = singleMatch_materials.match("Z30_MATERIAL", "folio_name", row["Z30_MATERIAL"], "Book")
     row.update({"material_type": materialLookup})
-
-
-    #loantypeLookup = loantype_map.get_loan(f"{row['Z30_SUB_LIBRARY']} {row['Z30_ITEM_STATUS']}")
+    loantype = loantype_map.matchx(row["Z30_SUB_LIBRARY"]+row["Z30_ITEM_STATUS"], "oops")
+    row.update( {"loanType": loantype})
     
     
 
