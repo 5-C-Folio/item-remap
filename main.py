@@ -67,12 +67,15 @@ class dictMap:
         self.locMap = readobject
 
 
-    def dictionify(self, alephKey,  folioValue, extraAlephKey='',):
+    def dictionify(self, alephKey,  folioValue, extraAlephKey=None,):
         
         with open(self.file, 'r') as mapfile:
             read_map = DictReader(mapfile, delimiter='\t')
             for row in read_map:
-               self.lookup_dict[row[alephKey]+row[extraAlephKey]] = row[folioValue]
+                if extraAlephKey: 
+                    self.lookup_dict[row[alephKey]+row[extraAlephKey]] = row[folioValue]
+                else:
+                    self.lookup_dict[row[alephKey]] = row[folioValue]
 
 
         
@@ -187,14 +190,13 @@ def parse(row):
     callNo = row['Z30_CALL_NO']
     barcode = barcode_parse(row["Z30_BARCODE"],inst)
     row.update(barcode)
-    materialLookup = singleMatch_materials.match("Z30_MATERIAL", "folio_name", row["Z30_MATERIAL"], "Book")
+    materialLookup = singleMatch_materials.matchx(row["Z30_MATERIAL"].rstrip(), "z")
     row.update({"material_type": materialLookup})
     loantype = loantype_map.matchx(row["Z30_SUB_LIBRARY"]+row["Z30_ITEM_STATUS"], "oops")
     row.update( {"loanType": loantype})
     
     
 
-    #row.update({'loanType': loantypeLookup})
     #item_policy = item_policy_map.match("legacy_code", "folio_name", row["Z30_ITEM_PROCESS_STATUS"], "Available")
     #row.update({"item_status": item_policy})
     #include the or row["Z30_TEMP_LOCATION"] == "N" if you want both temp and non temp
@@ -318,19 +320,23 @@ if __name__ == "__main__":
         exit()
     loantype_map = singleMatch(loanTypes)
     loantype_map.dictionify('Z30_SUB_LIBRARY','folio_name', 'Z30_ITEM_STATUS')
-    print(json.dumps(loantype_map.lookup_dict, indent=4))
+    
     try:
         materialsTypes = 'C:\\Users\\aneslin\\Documents\\python\\item-remap\\mapping_files\\material_types.tsv'
     except FileNotFoundError:
         print("no valid material_types.tsv found")
         exit()
     singleMatch_materials = singleMatch(materialsTypes)
+    singleMatch_materials.dictionify("Z30_MATERIAL","folio_name")
+    print(json.dumps(singleMatch_materials.lookup_dict, indent=4))
     try:
         item_policies = ('C:\\Users\\aneslin\\Documents\\python\\item-remap\\mapping_files\\item_statuses.tsv')
     except FileNotFoundError:
         print("no valid item_status.tsv found")
         exit()
-    item_policy_map = singleMatch(item_policies)
+    #item_policy_map = singleMatch(item_policies)
+    #item_policy_map.dictionify("Z30_MATERIAL","folio_name")
+    #print(json.dumps(loantype_map.lookup_dict, indent=4))
 
     # oracle log in file
     with open("C:\\Users\\aneslin\\Documents\\python\\item-remap\\passwords.json", "r") as pwFile:
