@@ -200,14 +200,11 @@ def parse(row):
     #item_policy = item_policy_map.match("legacy_code", "folio_name", row["Z30_ITEM_PROCESS_STATUS"], "Available")
     #row.update({"item_status": item_policy})
     #include the or row["Z30_TEMP_LOCATION"] == "N" if you want both temp and non temp
-    if row["Z30_TEMP_LOCATION"] == "Y":
+    if row["Z30_TEMP_LOCATION"] == "Y" or row["Z30_TEMP_LOCATION"] == "N" :
         call_number_type = callnoType(row["Z30_CALL_NO_TYPE"])
         row.update({"Z30_CALL_NO_TYPE": call_number_type})
         # hacky change to not include call number if it's not a temp_location
-        try:
-            locationLookup = locations_map.get_loc(f"{row['Z30_SUB_LIBRARY']} {row['Z30_COLLECTION'].rstrip()}")
-        except AttributeError:
-            locationLookup = locations_map.get_loc(f"{row['Z30_SUB_LIBRARY']} {row['Z30_COLLECTION']}")
+        locationLookup = locations_map.matchx(f"{row['Z30_SUB_LIBRARY']} {row['Z30_COLLECTION'].rstrip()}", "tech")
         row.update({"folio_location": locationLookup})
 
         if callNo and "$$" in callNo:
@@ -312,7 +309,9 @@ if __name__ == "__main__":
     except FileNotFoundError:
         print("no valid location.tsv found.  Check the path")
         exit()
-    locations_map = dictMap(locations)
+    locations_map = singleMatch(locations)
+    locations_map.dictionify('legacy_code', 'folio_code')
+    print(json.dumps(locations_map.lookup_dict, indent=4))
     try:
         loanTypes = 'C:\\Users\\aneslin\\Documents\\python\\item-remap\\mapping_files\\loan_types.tsv'
     except FileNotFoundError:
@@ -328,7 +327,7 @@ if __name__ == "__main__":
         exit()
     singleMatch_materials = singleMatch(materialsTypes)
     singleMatch_materials.dictionify("Z30_MATERIAL","folio_name")
-    print(json.dumps(singleMatch_materials.lookup_dict, indent=4))
+    
     try:
         item_policies = ('C:\\Users\\aneslin\\Documents\\python\\item-remap\\mapping_files\\item_statuses.tsv')
     except FileNotFoundError:
