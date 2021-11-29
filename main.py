@@ -49,6 +49,7 @@ class dictMap:
     def __init__(self, file):
         self.file = file
         self.locMap = None
+        self.map_dict = None
         self.read_map()
 
     def __str__(self):
@@ -63,6 +64,18 @@ class dictMap:
         for row in read_map:
             readobject.append(row)
         self.locMap = readobject
+
+
+    def dictionify(self, alephKey,  folioValue, extraAlephKey='',):
+        self.lookup_dict={}
+        with open(self.file, 'r') as mapfile:
+            read_map = DictReader(mapfile, delimiter='\t')
+            for row in read_map:
+               self.lookup_dict[row[alephKey]+row[extraAlephKey]] = row[folioValue]
+
+
+        
+            
 
     @lru_cache(32)
     def get_loc(self, legCode ):
@@ -97,7 +110,7 @@ class loc_dictMap(dictMap):
                 x = row["folio_name"]
                 break
             else:
-                x = "Umapped"
+                x = "Non-circulating"
         return x
 
 
@@ -167,14 +180,17 @@ def parse(row):
     callNo = row['Z30_CALL_NO']
     barcode = barcode_parse(row["Z30_BARCODE"],inst)
     row.update(barcode)
-    materialLookup = singleMatch_materials.match("Z30_MATERIAL", "folio_name", row["Z30_MATERIAL"], f"error: legCode {row['Z30_MATERIAL']}")
+    materialLookup = singleMatch_materials.match("Z30_MATERIAL", "folio_name", row["Z30_MATERIAL"], "Book")
     row.update({"material_type": materialLookup})
 
 
-    loantypeLookup = loantype_map.get_loan(f"{row['Z30_SUB_LIBRARY']} {row['Z30_ITEM_STATUS']}")
-    row.update({'loanType': loantypeLookup})
-    item_policy = item_policy_map.match("legacy_code", "folio_name", row["Z30_ITEM_PROCESS_STATUS"], "Available")
-    row.update({"item_status": item_policy})
+    #loantypeLookup = loantype_map.get_loan(f"{row['Z30_SUB_LIBRARY']} {row['Z30_ITEM_STATUS']}")
+    
+    
+
+    #row.update({'loanType': loantypeLookup})
+    #item_policy = item_policy_map.match("legacy_code", "folio_name", row["Z30_ITEM_PROCESS_STATUS"], "Available")
+    #row.update({"item_status": item_policy})
     #include the or row["Z30_TEMP_LOCATION"] == "N" if you want both temp and non temp
     if row["Z30_TEMP_LOCATION"] == "Y":
         call_number_type = callnoType(row["Z30_CALL_NO_TYPE"])
@@ -267,9 +283,9 @@ class Query:
         where substr(KEY,-5)='{self.inst}50'), {self.inst}50.z30
         where substr(KEY,1,15)=Z30_REC_KEY
         --last line is limit for testing
-        --and ROWNUM < 10000
+        and ROWNUM < 10000
         ''')
-        numrows = 100000
+        numrows = 500000
         while True:
             cursor.rowfactory = self.make_dict_factory(cursor)
             rows = cursor.fetchmany(numrows)
@@ -294,7 +310,9 @@ if __name__ == "__main__":
     except FileNotFoundError:
         print("no valid loantype.tsv found.  Check the path")
         exit()
-    loantype_map = loc_dictMap(loanTypes)
+    loantype_map = singleMatch(loanTypes)
+    loantype_map.dictionify('Z30_SUB_LIBRARY','folio_name', 'Z30_ITEM_STATUS')
+    print(json.dumps(loantype_map.lookup_dict, indent=4))
     try:
         materialsTypes = 'C:\\Users\\aneslin\\Documents\\python\\item-remap\\mapping_files\\material_types.tsv'
     except FileNotFoundError:
