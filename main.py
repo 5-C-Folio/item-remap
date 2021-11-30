@@ -47,25 +47,29 @@ def field_merge(fields : list):
 class dictMap:
     #todo run dictionify as part of construction
     '''Take the mapping file and parse it into a dict to allow for matching '''
-    def __init__(self, file):
+    def __init__(self, file, alephKey, folioValue, extraAlephKey=None):
         self.file = file
+        self.alephKey = alephKey
+        self.folioValue = folioValue
+        self.extraAlephKey = extraAlephKey
         self.lookup_dict={}
+        self.dictionify()
 
     def __str__(self):
         # str method. no use, just good practice
       return json.dumps(self.lookup_dict, indent=4)
 
     
-    def dictionify(self, alephKey,  folioValue, extraAlephKey=None,): 
+    def dictionify(self): 
         with open(self.file, 'r') as mapfile:
             read_map = DictReader(mapfile, delimiter='\t')
             for row in read_map:
-                if extraAlephKey: 
-                    self.lookup_dict[row[alephKey]+row[extraAlephKey]] = row[folioValue]
+                if self.extraAlephKey: 
+                    self.lookup_dict[row[self.alephKey]+row[self.extraAlephKey]] = row[self.folioValue]
                 else:
-                    self.lookup_dict[row[alephKey]] = row[folioValue]
+                    self.lookup_dict[row[self.alephKey]] = row[self.folioValue]
 
-    lru_cache(16)
+    lru_cache(8)
     def matchx(self, legCode, fallback):
         try:
             folioMap = self.lookup_dict[legCode]
@@ -230,32 +234,27 @@ if __name__ == "__main__":
     except FileNotFoundError:
         print("no valid location.tsv found.  Check the path")
         exit()
-    locations_map = dictMap(locations)
-    locations_map.dictionify('legacy_code', 'folio_code')
-    print(json.dumps(locations_map.lookup_dict, indent=4))
+    locations_map = dictMap(locations,'legacy_code', 'folio_code')
     try:
         loanTypes = 'C:\\Users\\aneslin\\Documents\\python\\item-remap\\mapping_files\\loan_types.tsv'
     except FileNotFoundError:
         print("no valid loantype.tsv found.  Check the path")
         exit()
-    loantype_map = dictMap(loanTypes)
-    loantype_map.dictionify('Z30_SUB_LIBRARY','folio_name', 'Z30_ITEM_STATUS')
+    loantype_map = dictMap(loanTypes,'Z30_SUB_LIBRARY','folio_name', extraAlephKey= 'Z30_ITEM_STATUS')
     
     try:
         materialsTypes = 'C:\\Users\\aneslin\\Documents\\python\\item-remap\\mapping_files\\material_types.tsv'
     except FileNotFoundError:
         print("no valid material_types.tsv found")
         exit()
-    singleMatch_materials = dictMap(materialsTypes)
-    singleMatch_materials.dictionify("Z30_MATERIAL","folio_name")
+    singleMatch_materials = dictMap(materialsTypes,"Z30_MATERIAL","folio_name")
     
     try:
         item_policies = ('C:\\Users\\aneslin\\Documents\\python\\item-remap\\mapping_files\\item_statuses.tsv')
     except FileNotFoundError:
         print("no valid item_status.tsv found")
         exit()
-    item_policy_map = dictMap(item_policies)
-    item_policy_map.dictionify("legacy_code", "folio_name")
+    item_policy_map = dictMap(item_policies,"legacy_code", "folio_name")
     print(json.dumps(loantype_map.lookup_dict, indent=4))
 
     # oracle log in file
