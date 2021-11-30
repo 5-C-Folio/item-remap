@@ -51,24 +51,13 @@ class dictMap:
         self.locMap = None
         self.map_dict = None
         self.lookup_dict={}
-        self.read_map()
 
     def __str__(self):
         # str method. no use, just good practice
-      return json.dumps(self.locMap, indent=4)
+      return json.dumps(self.lookup_dict, indent=4)
 
-    def read_map(self):
-        # read the dict into a json object.  Use tab as a delimiter.  Check to see if this is reoppening the file everytime?
-        readobject = []
-        locations = open(self.file, 'r')
-        read_map = DictReader(locations, delimiter='\t')
-        for row in read_map:
-            readobject.append(row)
-        self.locMap = readobject
-
-
-    def dictionify(self, alephKey,  folioValue, extraAlephKey=None,):
-        
+    
+    def dictionify(self, alephKey,  folioValue, extraAlephKey=None,): 
         with open(self.file, 'r') as mapfile:
             read_map = DictReader(mapfile, delimiter='\t')
             for row in read_map:
@@ -76,74 +65,9 @@ class dictMap:
                     self.lookup_dict[row[alephKey]+row[extraAlephKey]] = row[folioValue]
                 else:
                     self.lookup_dict[row[alephKey]] = row[folioValue]
-
-
-        
-            
-
-    @lru_cache(32)
-    def get_loc(self, legCode ):
-        # match legacy sublibrary+collection to get folio code.  Remove random whitespace. There's not actually a reason for this to be a list- dict would be easier, but peformance is fine as is
-        for row in self.locMap:
-            if row['legacy_code'] == legCode.rstrip():
-                x = row["folio_code"]
-                break
-            else:
-                x = "tech"
-        return x
-
-
-class loc_dictMap(dictMap):
-    # todo refactor to be included in singlematch
-    def read_map(self):
-        # read the dict into a json object.  Use tab as a delimiter.  Check to see if this is reoppening the file everytime?
-        readobject = []
-        locations = open(self.file, 'r')
-        read_map = DictReader(locations, delimiter='\t')
-        for row in read_map:
-            comboRow = f"{row['Z30_SUB_LIBRARY']} {row['Z30_ITEM_STATUS']}"
-            row.update({"aleph_loan": comboRow})
-            readobject.append(row)
-        self.locMap = readobject
-
-    @lru_cache(32)
-    def get_loan(self, legCode):
-        # match legacy sublibrary+collection to get folio code.  Remove random whitespace
-        for row in self.locMap:
-            if row["aleph_loan"] == legCode.rstrip():
-                x = row["folio_name"]
-                break
-            else:
-                x = "Non-circulating"
-        return x
-
+  
 
 class singleMatch(dictMap):
-
-    def read_map(self):
-    # read the dict into a json object.  Use tab as a delimiter.  Check to see if this is reoppening the file everytime?
-        readobject = []
-        materialTypes = open(self.file, 'r')
-        read_map = DictReader(materialTypes, delimiter='\t')
-        for row in read_map:
-            readobject.append(row)
-        self.locMap = readobject
-
-    @lru_cache(8)
-    def match(self, alephRow, folioRow, legCode, fallback):
-        try:
-            for row in self.locMap:
-
-                if row[alephRow].rstrip() == legCode.rstrip():
-                    x = row[folioRow]
-                    break
-                else:
-                    x = fallback
-            return x
-        except AttributeError:
-               x = fallback
-               return x
-
 
     def matchx(self, legCode, fallback):
         try:
@@ -184,7 +108,6 @@ def barcode_parse(barcode,schoolCode):
         barcode = f"{barcode}-{schoolCode}"
     # print(barcode)
     return {"Z30_BARCODE":barcode}
-
 
 
 def parse(row):
