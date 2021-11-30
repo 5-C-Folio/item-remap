@@ -146,8 +146,10 @@ class singleMatch(dictMap):
 
 
     def matchx(self, legCode, fallback):
-        x = self.lookup_dict[legCode]
-        print(x)
+        try:
+            x = self.lookup_dict[legCode]
+        except (AttributeError, KeyError):
+            x = fallback
         return(x)
 
 
@@ -195,10 +197,8 @@ def parse(row):
     loantype = loantype_map.matchx(row["Z30_SUB_LIBRARY"]+row["Z30_ITEM_STATUS"], "oops")
     row.update( {"loanType": loantype})
     
-    
-
-    #item_policy = item_policy_map.match("legacy_code", "folio_name", row["Z30_ITEM_PROCESS_STATUS"], "Available")
-    #row.update({"item_status": item_policy})
+    item_policy = item_policy_map.matchx(row["Z30_ITEM_PROCESS_STATUS"], "Available")
+    row.update({"item_status": item_policy})
     #include the or row["Z30_TEMP_LOCATION"] == "N" if you want both temp and non temp
     if row["Z30_TEMP_LOCATION"] == "Y" or row["Z30_TEMP_LOCATION"] == "N" :
         call_number_type = callnoType(row["Z30_CALL_NO_TYPE"])
@@ -333,9 +333,9 @@ if __name__ == "__main__":
     except FileNotFoundError:
         print("no valid item_status.tsv found")
         exit()
-    #item_policy_map = singleMatch(item_policies)
-    #item_policy_map.dictionify("Z30_MATERIAL","folio_name")
-    #print(json.dumps(loantype_map.lookup_dict, indent=4))
+    item_policy_map = singleMatch(item_policies)
+    item_policy_map.dictionify("legacy_code", "folio_name")
+    print(json.dumps(loantype_map.lookup_dict, indent=4))
 
     # oracle log in file
     with open("C:\\Users\\aneslin\\Documents\\python\\item-remap\\passwords.json", "r") as pwFile:
