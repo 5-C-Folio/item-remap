@@ -20,13 +20,12 @@ def callnoType(alephCall):
                "8": "Other scheme",
                "i": "Other scheme",
                "*": "Other scheme"}
-        x = ctypes[alephCall]
+        callNumber = ctypes[alephCall]
     except KeyError:
-        x = 'None'
-    return x
+        callNumber = 'None'
+    return callNumber
 
 
-# todo Replace file list with key value pairs instead of list of dicts
 def del_dict(values : list, row: dict):
     for fields in values:
         if fields:
@@ -40,11 +39,12 @@ def field_merge(fields : list):
         if item:
             mergeList.append(item)
     if len(mergeList) > 0:
-        x = " ".join(mergeList)
-        return x
+        mergedFields = " ".join(mergeList)
+        return mergedFields
 
 
 class dictMap:
+    #todo run dictionify as part of construction
     '''Take the mapping file and parse it into a dict to allow for matching '''
     def __init__(self, file):
         self.file = file
@@ -68,13 +68,14 @@ class dictMap:
   
 
 class singleMatch(dictMap):
+    #todo no longer needs to be an independent class add to parent
     lru_cache(4)
     def matchx(self, legCode, fallback):
         try:
-            x = self.lookup_dict[legCode]
+            folioMap = self.lookup_dict[legCode]
         except (AttributeError, KeyError):
-            x = fallback
-        return(x)
+            folioMap = fallback
+        return(folioMap)
 
 
 def lc_parser(callNo):
@@ -122,21 +123,21 @@ def parse(row):
     
     item_policy = item_policy_map.matchx(row["Z30_ITEM_PROCESS_STATUS"], "Available")
     row.update({"item_status": item_policy})
+    
     #include the or row["Z30_TEMP_LOCATION"] == "N" if you want both temp and non temp
     if row["Z30_TEMP_LOCATION"] == "Y" or row["Z30_TEMP_LOCATION"] == "N" :
         call_number_type = callnoType(row["Z30_CALL_NO_TYPE"])
         row.update({"Z30_CALL_NO_TYPE": call_number_type})
+        
         # hacky change to not include call number if it's not a temp_location
         locationLookup = locations_map.matchx(f"{row['Z30_SUB_LIBRARY']} {row['Z30_COLLECTION'].rstrip()}", "tech")
         row.update({"folio_location": locationLookup})
-
         if callNo and "$$" in callNo:
             callNodict = lc_parser(callNo)
             row.update(callNodict)
         elif callNo:
             row.update({"call_number": callNo})
     else:
-
         row.update({"call_number": None})
     compositeEnum = field_merge([row["Z30_ENUMERATION_A"],
                                 row["Z30_ENUMERATION_B"],
@@ -211,7 +212,7 @@ class Query:
         where substr(KEY,-5)='{self.inst}50'), {self.inst}50.z30
         where substr(KEY,1,15)=Z30_REC_KEY
         --last line is limit for testing
-        and ROWNUM < 10000
+        and ROWNUM < 500000
         ''')
         numrows = 500000
         while True:
@@ -225,8 +226,9 @@ class Query:
 
 
 if __name__ == "__main__":
+    #todo add main class, wrap try except file read in function, add command line arguments for test vs full run
+    #todo add file with mapping file locations, command line arguments for 
     # added directory of location mapping- this means changes to locations should happen here
-    # todo too many damn classes.  They all function the same
     try:
         locations = 'C:\\Users\\aneslin\Documents\\python\\item-remap\\mapping_files\\locations.tsv'
     except FileNotFoundError:
