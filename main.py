@@ -68,7 +68,7 @@ class dictMap:
   
 
 class singleMatch(dictMap):
-
+    lru_cache(4)
     def matchx(self, legCode, fallback):
         try:
             x = self.lookup_dict[legCode]
