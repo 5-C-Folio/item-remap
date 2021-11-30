@@ -3,6 +3,7 @@ cx_Oracle.init_oracle_client(lib_dir=r"C:\\oracle\\instantclient_12_1")
 from csv import DictWriter, DictReader
 import json
 from datetime import datetime
+from time import perf_counter
 from functools import lru_cache
 
 
@@ -48,8 +49,6 @@ class dictMap:
     '''Take the mapping file and parse it into a dict to allow for matching '''
     def __init__(self, file):
         self.file = file
-        self.locMap = None
-        self.map_dict = None
         self.lookup_dict={}
 
     def __str__(self):
@@ -65,18 +64,15 @@ class dictMap:
                     self.lookup_dict[row[alephKey]+row[extraAlephKey]] = row[folioValue]
                 else:
                     self.lookup_dict[row[alephKey]] = row[folioValue]
-  
 
-class singleMatch(dictMap):
-    #todo no longer needs to be an independent class add to parent
-    lru_cache(4)
+    lru_cache(16)
     def matchx(self, legCode, fallback):
         try:
             folioMap = self.lookup_dict[legCode]
         except (AttributeError, KeyError):
             folioMap = fallback
         return(folioMap)
-
+  
 
 def lc_parser(callNo):
     # split call numbers.  if it's an H or I, it's the main call number, if k, then prefix. Anything else suffix.  Return
@@ -212,7 +208,7 @@ class Query:
         where substr(KEY,-5)='{self.inst}50'), {self.inst}50.z30
         where substr(KEY,1,15)=Z30_REC_KEY
         --last line is limit for testing
-        and ROWNUM < 500000
+        and ROWNUM < 100000
         ''')
         numrows = 500000
         while True:
@@ -234,7 +230,7 @@ if __name__ == "__main__":
     except FileNotFoundError:
         print("no valid location.tsv found.  Check the path")
         exit()
-    locations_map = singleMatch(locations)
+    locations_map = dictMap(locations)
     locations_map.dictionify('legacy_code', 'folio_code')
     print(json.dumps(locations_map.lookup_dict, indent=4))
     try:
@@ -242,7 +238,7 @@ if __name__ == "__main__":
     except FileNotFoundError:
         print("no valid loantype.tsv found.  Check the path")
         exit()
-    loantype_map = singleMatch(loanTypes)
+    loantype_map = dictMap(loanTypes)
     loantype_map.dictionify('Z30_SUB_LIBRARY','folio_name', 'Z30_ITEM_STATUS')
     
     try:
@@ -250,7 +246,7 @@ if __name__ == "__main__":
     except FileNotFoundError:
         print("no valid material_types.tsv found")
         exit()
-    singleMatch_materials = singleMatch(materialsTypes)
+    singleMatch_materials = dictMap(materialsTypes)
     singleMatch_materials.dictionify("Z30_MATERIAL","folio_name")
     
     try:
@@ -258,7 +254,7 @@ if __name__ == "__main__":
     except FileNotFoundError:
         print("no valid item_status.tsv found")
         exit()
-    item_policy_map = singleMatch(item_policies)
+    item_policy_map = dictMap(item_policies)
     item_policy_map.dictionify("legacy_code", "folio_name")
     print(json.dumps(loantype_map.lookup_dict, indent=4))
 
@@ -334,12 +330,13 @@ if __name__ == "__main__":
     writer = DictWriter(f, fieldnames=headers, delimiter='\t')
     writer.writeheader()
     count = 0
+    s = perf_counter()
     for row in query_results:
         for line in row:
             try:
                 count +=1
                 writer.writerow(line)
-                if count % 100 == 0:
+                if count % 1000 == 0:
                     print(count)
             except AttributeError:
                 print("Error- NoneType?")
@@ -348,4 +345,6 @@ if __name__ == "__main__":
                 print(line["Z30_BARCODE"], "unicode error")
                 continue
     f.close()
+    st = perf_counter()
+    print(f"{count} records processed in {st - s:0.4f} seconds")
     query_results.close()
