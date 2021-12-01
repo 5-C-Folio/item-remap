@@ -249,7 +249,7 @@ if __name__ == "__main__":
     item_policy_map = dictMap(item_policies,"legacy_code", "folio_name")
 
     # oracle log in file
-    with open("C:\\Users\\aneslin\\Documents\\python\\item-remap\\passwords.json", "r") as pwFile:
+    with open(os.path.join(dir,"passwords.json"), "r") as pwFile:
         pw = json.load(pwFile)
     # define headers for csv - this should probably be in a separate file
     headers = ["KEY",
