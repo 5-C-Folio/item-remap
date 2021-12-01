@@ -5,6 +5,7 @@ import json
 from datetime import datetime
 from time import perf_counter
 from functools import lru_cache
+import os
 
 
 @lru_cache(4)
@@ -44,11 +45,7 @@ def field_merge(fields : list):
         return mergedFields
 
 
-
-
-
 class dictMap:
-    #todo run dictionify as part of construction
     '''Take the mapping file and parse it into a dict to allow for matching '''
     def __init__(self, file, alephKey, folioValue, extraAlephKey=None):
         self.file = file
@@ -119,7 +116,7 @@ def barcode_parse(barcode,schoolCode):
 
 def parse(row):
     #call all functions to fix results
-    callNo = row['Z30_CALL_NO']
+   
     barcode = barcode_parse(row["Z30_BARCODE"],inst)
     row.update(barcode)
     materialLookup = singleMatch_materials.matchx(row["Z30_MATERIAL"].rstrip(), "z")
@@ -132,9 +129,9 @@ def parse(row):
     
     #include the or row["Z30_TEMP_LOCATION"] == "N" if you want both temp and non temp
     if row["Z30_TEMP_LOCATION"] == "Y" or row["Z30_TEMP_LOCATION"] == "N" :
+        callNo = row['Z30_CALL_NO']
         call_number_type = callnoType(row["Z30_CALL_NO_TYPE"])
         row.update({"Z30_CALL_NO_TYPE": call_number_type})
-        
         # hacky change to not include call number if it's not a temp_location
         locationLookup = locations_map.matchx(f"{row['Z30_SUB_LIBRARY']} {row['Z30_COLLECTION'].rstrip()}", "tech")
         row.update({"folio_location": locationLookup})
@@ -234,18 +231,21 @@ class Query:
 
 
 
+
+
 if __name__ == "__main__":
     #todo add main class, wrap try except file read in function, add command line arguments for test vs full run
     #todo add file with mapping file locations, command line arguments for 
     # added directory of location mapping- this means changes to locations should happen here
-    
-    locations = 'C:\\Users\\aneslin\Documents\\python\\item-remap\\mapping_files\\locations.tsv'   
+    dir = os.path.dirname(__file__)
+    print(dir)
+    locations = os.path.join(dir,'mapping_files\\locations.tsv')   
     locations_map = dictMap(locations,'legacy_code', 'folio_code')
-    loanTypes = 'C:\\Users\\aneslin\\Documents\\python\\item-remap\\mapping_files\\loan_types.tsv'
+    loanTypes =  os.path.join(dir,'mapping_files\\loan_types.tsv')
     loantype_map = dictMap(loanTypes,'Z30_SUB_LIBRARY','folio_name', extraAlephKey= 'Z30_ITEM_STATUS')
-    materialsTypes = 'C:\\Users\\aneslin\\Documents\\python\\item-remap\\mapping_files\\material_types.tsv'
+    materialsTypes = os.path.join(dir,'mapping_files\\material_types.tsv')
     singleMatch_materials = dictMap(materialsTypes,"Z30_MATERIAL","folio_name")
-    item_policies = ('C:\\Users\\aneslin\\Documents\\python\\item-remap\\mapping_files\\item_statuses.tsv')
+    item_policies = os.path.join(dir,'mapping_files\\item_statuses.tsv')
     item_policy_map = dictMap(item_policies,"legacy_code", "folio_name")
 
     # oracle log in file
@@ -326,8 +326,8 @@ if __name__ == "__main__":
             try:
                 count +=1
                 writer.writerow(line)
-                if count % 1000 == 0:
-                    print(count)
+                #if count % 1000 == 0:
+                    #print(count)
             except AttributeError:
                 print("Error- NoneType?")
                 continue
