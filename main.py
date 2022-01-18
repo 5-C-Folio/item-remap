@@ -121,7 +121,7 @@ def parse(row):
     row.update(barcode)
     materialLookup = singleMatch_materials.matchx(row["Z30_MATERIAL"].rstrip(), "z")
     row.update({"material_type": materialLookup})
-    loantype = loantype_map.matchx(row["Z30_SUB_LIBRARY"]+row["Z30_ITEM_STATUS"], "oops")
+    loantype = loantype_map.matchx(row["Z30_SUB_LIBRARY"].rstrip()+row["Z30_ITEM_STATUS"], "oops")
     row.update( {"loanType": loantype})
     
     item_policy = item_policy_map.matchx(row["Z30_ITEM_PROCESS_STATUS"], "Available")
@@ -133,7 +133,7 @@ def parse(row):
         call_number_type = callnoType(row["Z30_CALL_NO_TYPE"])
         row.update({"Z30_CALL_NO_TYPE": call_number_type})
         # hacky change to not include call number if it's not a temp_location
-        locationLookup = locations_map.matchx(f"{row['Z30_SUB_LIBRARY']} {row['Z30_COLLECTION'].rstrip()}", "tech")
+        locationLookup = locations_map.matchx(f"{row['Z30_SUB_LIBRARY'].rstrip()} {row['Z30_COLLECTION'].rstrip()}", row['Z30_COLLECTION'])
         row.update({"folio_location": locationLookup})
         if callNo and "$$" in callNo:
             callNodict = lc_parser(callNo)
