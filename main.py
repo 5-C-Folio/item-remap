@@ -1,13 +1,15 @@
 import cx_Oracle
 cx_Oracle.init_oracle_client(lib_dir=r"C:\\oracle\\instantclient_12_1")
 from csv import DictWriter, DictReader
-from passwords import logIn
 from datetime import datetime
 from time import perf_counter
 from functools import lru_cache
 import os
-
-
+try:
+    from passwords import logIn
+    from data import headers, deleteList
+except FileNotFoundError:
+    print("password or data files not found")
 
 @lru_cache(4)
 def callnoType(alephCall):
@@ -46,9 +48,10 @@ def field_merge(fields : list):
         return mergedFields
 
 
+
 class dictMap:
     '''Take the mapping file and parse it into a dict to allow for matching '''
-    def __init__(self, file, alephKey, folioValue, extraAlephKey=None):
+    def __init__(self, file, alephKey, folioValue, extraAlephKey=None,):
         self.file = file
         self.alephKey = alephKey
         self.folioValue = folioValue
@@ -158,34 +161,7 @@ def parse(row):
 
     row.update({"chronology": compositeChron})
     row.update({"enumeration": compositeEnum})
-    del_dict(["Z30_ENUMERATION_A",
-              "Z30_ENUMERATION_B",
-              "Z30_ENUMERATION_C",
-              "Z30_ENUMERATION_D",
-              "Z30_ENUMERATION_E",
-              "Z30_ENUMERATION_F",
-              "Z30_ENUMERATION_G",
-              "Z30_ENUMERATION_H",
-              "Z30_CHRONOLOGICAL_I",
-              "Z30_CHRONOLOGICAL_J",
-              "Z30_CHRONOLOGICAL_K",
-              "Z30_CHRONOLOGICAL_L",
-              "Z30_CHRONOLOGICAL_M",
-              "Z30_CATALOGER",
-              "Z30_IP_LAST_RETURN",
-              "Z30_ALPHA",
-              "Z30_CALL_NO_KEY",
-              "Z30_CALL_NO_2_TYPE",
-              "Z30_CALL_NO_2",
-              "Z30_CALL_NO_2_KEY",
-              "Z30_IP_LAST_RETURN_V6",
-              "Z30_REC_KEY_2",
-              "Z30_REC_KEY_3",
-              "Z30_SHELF_REPORT_NUMBER",
-              "Z30_ON_SHELF_DATE",
-              "Z30_ON_SHELF_SEQ",
-              "Z30_LAST_SHELF_REPORT_DATE",
-              ], row)
+    del_dict(deleteList, row)
     try:
         return row
     except AttributeError:
@@ -228,12 +204,6 @@ class Query:
                 yield map(parse, rows)
 
 
-
-
-
-
-
-
 if __name__ == "__main__":
     #todo add main class, wrap try except file read in function, add command line arguments for test vs full run
     #todo add file with mapping file locations, command line arguments for 
@@ -250,58 +220,8 @@ if __name__ == "__main__":
     item_policy_map = dictMap(item_policies,"legacy_code", "folio_name")
 
     # oracle log in file
-    #with open(os.path.join(dir,"passwords.json"), "r") as pwFile:
-    #    pw = json.load(pwFile)
     # define headers for csv - this should probably be in a separate file
-    headers = ["KEY",
-               "Z30_REC_KEY",
-               "Z30_BARCODE",
-               "Z30_SUB_LIBRARY",
-               "Z30_MATERIAL",
-               "Z30_ITEM_STATUS",
-               "Z30_OPEN_DATE",
-               "Z30_UPDATE_DATE",
-               "Z30_DATE_LAST_RETURN",
-               "Z30_HOUR_LAST_RETURN",
-               "Z30_NO_LOANS",
-               "Z30_COLLECTION",
-               "Z30_CALL_NO_TYPE",
-               "Z30_CALL_NO",
-               "Z30_DESCRIPTION",
-               "Z30_NOTE_OPAC",
-               "Z30_NOTE_CIRCULATION",
-               "Z30_NOTE_INTERNAL",
-               "Z30_ORDER_NUMBER",
-               "Z30_INVENTORY_NUMBER",
-               "Z30_INVENTORY_NUMBER_DATE",
-               "Z30_LAST_SHELF_REPORT_DATE",
-               "Z30_PRICE",
-               "Z30_PAGES",
-               "Z30_ISSUE_DATE",
-               "Z30_EXPECTED_ARRIVAL_DATE",
-               "Z30_ARRIVAL_DATE",
-               "Z30_ITEM_STATISTIC",
-               "Z30_ITEM_PROCESS_STATUS",
-               "Z30_HOL_DOC_NUMBER_X",
-               "Z30_TEMP_LOCATION",
-               "enumeration",
-               "chronology",
-               "Z30_SUPP_INDEX_O",
-               "Z30_85X_TYPE",
-               "Z30_DEPOSITORY_ID",
-               "Z30_LINKING_NUMBER",
-               "Z30_GAP_INDICATOR",
-               "Z30_MAINTENANCE_COUNT",
-               "Z30_PROCESS_STATUS_DATE",
-               "Z30_UPD_TIME_STAMP",
-               "prefix",
-               "call_number", 
-               "suffix",
-               "folio_location",
-               "loanType",
-               "material_type",
-               "item_status",
-               "Z30_COPY_ID"]
+    
     # used to get th right database
     global inst
     # define inst as global value to be used in barcode parse as well
