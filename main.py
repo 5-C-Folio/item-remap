@@ -1,11 +1,12 @@
 import cx_Oracle
 cx_Oracle.init_oracle_client(lib_dir=r"C:\\oracle\\instantclient_12_1")
 from csv import DictWriter, DictReader
-import json
+from passwords import logIn
 from datetime import datetime
 from time import perf_counter
 from functools import lru_cache
 import os
+
 
 
 @lru_cache(4)
@@ -58,7 +59,6 @@ class dictMap:
     def __str__(self):
         # str method. no use, just good practice
       return json.dumps(self.lookup_dict, indent=4)
-
     def dictionify(self): 
         try:
             with open(self.file, 'r') as mapfile:
@@ -233,6 +233,7 @@ class Query:
 
 
 
+
 if __name__ == "__main__":
     #todo add main class, wrap try except file read in function, add command line arguments for test vs full run
     #todo add file with mapping file locations, command line arguments for 
@@ -249,8 +250,8 @@ if __name__ == "__main__":
     item_policy_map = dictMap(item_policies,"legacy_code", "folio_name")
 
     # oracle log in file
-    with open(os.path.join(dir,"passwords.json"), "r") as pwFile:
-        pw = json.load(pwFile)
+    #with open(os.path.join(dir,"passwords.json"), "r") as pwFile:
+    #    pw = json.load(pwFile)
     # define headers for csv - this should probably be in a separate file
     headers = ["KEY",
                "Z30_REC_KEY",
@@ -307,7 +308,7 @@ if __name__ == "__main__":
     inst = input("enter three character school code> ")
     #try:
     print("connecting to DB")
-    query_results = Query(cx_Oracle.connect(pw["user"], pw["password"], pw["server"]), inst)
+    query_results = Query(cx_Oracle.connect(logIn["user"], logIn["password"], logIn["dsn"]), inst)
     #except cx_Oracle.DatabaseError:
         #print("The Oracle Connection is not working. Check your connection, VPN and server address")
         #exit()
