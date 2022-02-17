@@ -3,3 +3,4 @@ items*
 *.csv
 *.ipynb
 Untitled-1.ipynb
+__pycache__

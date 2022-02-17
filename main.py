@@ -1,10 +1,11 @@
-import cx_Oracle
-cx_Oracle.init_oracle_client(lib_dir=r"C:\\oracle\\instantclient_12_1")
 from csv import DictWriter, DictReader
 from datetime import datetime
 from time import perf_counter
 from functools import lru_cache
+import json
 import os
+import cx_Oracle
+cx_Oracle.init_oracle_client(lib_dir=r"C:\\oracle\\instantclient_12_1")
 try:
     from passwords import logIn
     from data import headers, deleteList
@@ -12,7 +13,7 @@ except FileNotFoundError:
     print("password or data files not found")
 
 @lru_cache(4)
-def callnoType(alephCall):
+def call_no_type(aleph_call):
     try:
         ctypes = {"0": "Library of Congress classification",
                "1": "Dewey Decimal classification",
@@ -25,10 +26,10 @@ def callnoType(alephCall):
                "8": "Other scheme",
                "i": "Other scheme",
                "*": "Other scheme"}
-        callNumber = ctypes[alephCall]
+        call_number = ctypes[aleph_call]
     except KeyError:
-        callNumber = 'None'
-    return callNumber
+        call_number = 'None'
+    return call_number
 
 
 def del_dict(values : list, row: dict):
@@ -39,42 +40,40 @@ def del_dict(values : list, row: dict):
 
 
 def field_merge(fields : list):
-    mergeList = []
+    merge_list = []
     for item in fields:
         if item:
-            mergeList.append(item)
-    if len(mergeList) > 0:
-        mergedFields = " ".join(mergeList)
-        return mergedFields
+            merge_list.append(item)
+    if len(merge_list) > 0:
+        merged_fields = " ".join(merge_list)
+        return merged_fields
 
-
-
-class dictMap:
+class DictMap:
     '''Take the mapping file and parse it into a dict to allow for matching '''
-    def __init__(self, file, alephKey, folioValue, extraAlephKey=None,):
+    def __init__(self, file, aleph_key, folio_value, extra_aleph_key=None,):
         self.file = file
-        self.alephKey = alephKey
-        self.folioValue = folioValue
-        self.extraAlephKey = extraAlephKey
+        self.aleph_key = aleph_key
+        self.folio_value = folio_value
+        self.extra_aleph_key = extra_aleph_key
         self.lookup_dict={}
         self.dictionify()
 
     def __str__(self):
         # str method. no use, just good practice
-      return json.dumps(self.lookup_dict, indent=4)
+        return json.dumps(self.lookup_dict, indent=4)
     def dictionify(self): 
         try:
-            with open(self.file, 'r') as mapfile:
+            with open(self.file, 'r',encoding='utf8') as mapfile:
                 read_map = DictReader(mapfile, delimiter='\t')
                 for row in read_map:
-                    if self.extraAlephKey: 
-                        self.lookup_dict[row[self.alephKey]+row[self.extraAlephKey]] = row[self.folioValue]
+                    if self.extra_aleph_key:
+                        self.lookup_dict[row[self.aleph_key]+row[self.extra_aleph_key]] = row[self.folio_value]
                     else:
-                        self.lookup_dict[row[self.alephKey]] = row[self.folioValue]
+                        self.lookup_dict[row[self.aleph_key]] = row[self.folio_value]
         except FileNotFoundError:
             print(f"'{self.file}' not found. Check name and path")
             exit()
-    
+                  
     @lru_cache(8)
     def matchx(self, legCode, fallback):
         try:
@@ -118,22 +117,19 @@ def barcode_parse(barcode,schoolCode):
 
 
 def parse(row):
-    #call all functions to fix results
-   
+    #call all functions to fix results 
     barcode = barcode_parse(row["Z30_BARCODE"],inst)
     row.update(barcode)
     materialLookup = singleMatch_materials.matchx(row["Z30_MATERIAL"].rstrip(), "z")
     row.update({"material_type": materialLookup})
     loantype = loantype_map.matchx(row["Z30_SUB_LIBRARY"].rstrip()+row["Z30_ITEM_STATUS"], "oops")
     row.update( {"loanType": loantype})
-    
     item_policy = item_policy_map.matchx(row["Z30_ITEM_PROCESS_STATUS"], "Available")
     row.update({"item_status": item_policy})
-    
     #include the or row["Z30_TEMP_LOCATION"] == "N" if you want both temp and non temp
-    if row["Z30_TEMP_LOCATION"] == "Y" or row["Z30_TEMP_LOCATION"] == "N" :
+    if row["Z30_TEMP_LOCATION"] == "Y":
         callNo = row['Z30_CALL_NO']
-        call_number_type = callnoType(row["Z30_CALL_NO_TYPE"])
+        call_number_type = call_no_type(row["Z30_CALL_NO_TYPE"])
         row.update({"Z30_CALL_NO_TYPE": call_number_type})
         # hacky change to not include call number if it's not a temp_location
         locationLookup = locations_map.matchx(f"{row['Z30_SUB_LIBRARY'].rstrip()} {row['Z30_COLLECTION'].rstrip()}", row['Z30_COLLECTION'])
@@ -191,7 +187,7 @@ class Query:
         where substr(KEY,-5)='{self.inst}50'), {self.inst}50.z30
         where substr(KEY,1,15)=Z30_REC_KEY
         --last line is limit for testing
-        and ROWNUM < 100000
+        --and ROWNUM < 100000
         ''')
         numrows = 500000
         while True:
@@ -206,32 +202,28 @@ class Query:
 
 if __name__ == "__main__":
     #todo add main class, wrap try except file read in function, add command line arguments for test vs full run
-    #todo add file with mapping file locations, command line arguments for 
     # added directory of location mapping- this means changes to locations should happen here
     dir = os.path.dirname(__file__)
     print(dir)
     locations = os.path.join(dir,'mapping_files\\locations.tsv')   
-    locations_map = dictMap(locations,'legacy_code', 'folio_code')
+    locations_map = DictMap(locations,'legacy_code', 'folio_code')
     loanTypes =  os.path.join(dir,'mapping_files\\loan_types.tsv')
-    loantype_map = dictMap(loanTypes,'Z30_SUB_LIBRARY','folio_name', extraAlephKey= 'Z30_ITEM_STATUS')
+    loantype_map = DictMap(loanTypes,'Z30_SUB_LIBRARY','folio_name', extra_aleph_key= 'Z30_ITEM_STATUS')
     materialsTypes = os.path.join(dir,'mapping_files\\material_types.tsv')
-    singleMatch_materials = dictMap(materialsTypes,"Z30_MATERIAL","folio_name")
+    singleMatch_materials = DictMap(materialsTypes,"Z30_MATERIAL","folio_name")
     item_policies = os.path.join(dir,'mapping_files\\item_statuses.tsv')
-    item_policy_map = dictMap(item_policies,"legacy_code", "folio_name")
-
-    # oracle log in file
-    # define headers for csv - this should probably be in a separate file
+    item_policy_map = DictMap(item_policies,"legacy_code", "folio_name")
     
     # used to get th right database
     global inst
     # define inst as global value to be used in barcode parse as well
     inst = input("enter three character school code> ")
-    #try:
-    print("connecting to DB")
-    query_results = Query(cx_Oracle.connect(logIn["user"], logIn["password"], logIn["dsn"]), inst)
-    #except cx_Oracle.DatabaseError:
-        #print("The Oracle Connection is not working. Check your connection, VPN and server address")
-        #exit()
+    try:
+        print("connecting to DB")
+        query_results = Query(cx_Oracle.connect(logIn["user"], logIn["password"], logIn["dsn"]), inst)
+    except cx_Oracle.DatabaseError:
+        print("The Oracle Connection is not working. Check your connection, VPN and server address")
+        exit()
     # will yield a constructor that will be called until it returns no results
     query_results = query_results.item_query()
     now = datetime.now()
