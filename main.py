@@ -5,7 +5,7 @@ from functools import lru_cache
 import json
 import os
 import cx_Oracle
-cx_Oracle.init_oracle_client(lib_dir=r"C:\\oracle\\instantclient_12_1")
+cx_Oracle.init_oracle_client(lib_dir=r"C:\\oracle\\INSTantclient_12_1")
 try:
     from passwords import logIn
     from data import headers, deleteList
@@ -61,7 +61,7 @@ class DictMap:
     def __str__(self):
         # str method. no use, just good practice
         return json.dumps(self.lookup_dict, indent=4)
-    def dictionify(self): 
+    def dictionify(self):
         try:
             with open(self.file, 'r',encoding='utf8') as mapfile:
                 read_map = DictReader(mapfile, delimiter='\t')
@@ -73,52 +73,51 @@ class DictMap:
         except FileNotFoundError:
             print(f"'{self.file}' not found. Check name and path")
             exit()
-                  
-    @lru_cache(8)
-    def matchx(self, legCode, fallback):
-        try:
-            folioMap = self.lookup_dict[legCode]
-        except (AttributeError, KeyError):
-            folioMap = fallback
-        return(folioMap)
-  
 
-def lc_parser(callNo):
+    @lru_cache(8)
+    def matchx(self, legacy_code, fallback):
+        try:
+            folio_map = self.lookup_dict[legacy_code]
+        except (AttributeError, KeyError):
+            folio_map = fallback
+        return folio_map
+
+def lc_parser(call_num):
     # split call numbers.  if it's an H or I, it's the main call number, if k, then prefix. Anything else suffix.  Return
-    callnosplit = callNo.split('$$')
-    callNodict = {}
+    call_num_split = call_num.split('$$')
+    call_num_dict = {}
     suffix = []
-    callnumber = []
+    call_number = []
     prefix = []
-    for subfield in callnosplit:
+    for subfield in call_num_split:
         if len(subfield) > 0:
             if subfield[0] == 'h':
-                callnumber.append(subfield[1:])
+                call_number.append(subfield[1:])
             elif subfield[0] == "i":
-                callnumber.append(subfield[1:])
+                call_number.append(subfield[1:])
             elif subfield[0].strip() == "k":
                 prefix.append((subfield[1:]))
             else:
                 suffix.append(subfield[1:])
 
-    callNodict["suffix"] = ' '.join(suffix)
-    callNodict["call_number"] = ' '.join(callnumber)
-    callNodict["prefix"] = ' '.join(prefix)
-    return callNodict
+    call_num_dict["suffix"] = ' '.join(suffix)
+    call_num_dict["call_number"] = ' '.join(call_number)
+    call_num_dict["prefix"] = ' '.join(prefix)
+    return call_num_dict
 
 
-def barcode_parse(barcode,schoolCode):
+def barcode_parse(barcode,school_code):
     # remove whitespace in barcodes. If the barcode doesn't match standard barcode length, append school code
     barcode = barcode.replace(" ", "")
     if len(barcode) < 15:
-        barcode = f"{barcode}-{schoolCode}"
+        barcode = f"{barcode}-{school_code}"
     # print(barcode)
     return {"Z30_BARCODE":barcode}
 
 
 def parse(row):
     #call all functions to fix results 
-    barcode = barcode_parse(row["Z30_BARCODE"],inst)
+    barcode = barcode_parse(row["Z30_BARCODE"],INST)
     row.update(barcode)
     materialLookup = singleMatch_materials.matchx(row["Z30_MATERIAL"].rstrip(), "z")
     row.update({"material_type": materialLookup})
@@ -165,10 +164,10 @@ def parse(row):
 
 
 class Query:
-    '''Query the Aleph database to return all items at a given institution.  Call cleanup as a map function'''
-    def __init__(self, connection, inst):
+    '''Query the Aleph database to return all items at a given INSTitution.  Call cleanup as a map function'''
+    def __init__(self, connection, INST):
         self.connection = connection
-        self.inst = inst
+        self.INST = INST
 
     def make_dict_factory(self, cursor):
         columnNames = [d[0] for d in cursor.description]
@@ -184,7 +183,7 @@ class Query:
         cursor.execute(f'''
         select *  from 
         (select KEY from UMA50.SB_KEY 
-        where substr(KEY,-5)='{self.inst}50'), {self.inst}50.z30
+        where substr(KEY,-5)='{self.INST}50'), {self.INST}50.z30
         where substr(KEY,1,15)=Z30_REC_KEY
         --last line is limit for testing
         --and ROWNUM < 100000
@@ -215,12 +214,12 @@ if __name__ == "__main__":
     item_policy_map = DictMap(item_policies,"legacy_code", "folio_name")
     
     # used to get th right database
-    global inst
-    # define inst as global value to be used in barcode parse as well
-    inst = input("enter three character school code> ")
+    global INST
+    # define INST as global value to be used in barcode parse as well
+    INST = input("enter three character school code> ")
     try:
         print("connecting to DB")
-        query_results = Query(cx_Oracle.connect(logIn["user"], logIn["password"], logIn["dsn"]), inst)
+        query_results = Query(cx_Oracle.connect(logIn["user"], logIn["password"], logIn["dsn"]), INST)
     except cx_Oracle.DatabaseError:
         print("The Oracle Connection is not working. Check your connection, VPN and server address")
         exit()
@@ -229,18 +228,18 @@ if __name__ == "__main__":
     now = datetime.now()
     now = now.strftime("%m-%d-%H%M")
     # create output file- will append since there will be multiple writes
-    f = open(f"items-{inst}-{now}.tsv", 'a', newline='', encoding='utf-8')
+    f = open(f"items-{INST}-{now}.tsv", 'a', newline='', encoding='utf-8')
     writer = DictWriter(f, fieldnames=headers, delimiter='\t')
     writer.writeheader()
-    count = 0
+    COUNT = 0
     s = perf_counter()
     for row in query_results:
         for line in row:
             try:
-                count +=1
+                COUNT +=1
                 writer.writerow(line)
-                #if count % 1000 == 0:
-                    #print(count)
+                #if COUNT % 1000 == 0:
+                    #print(COUNT)
             except AttributeError:
                 print("Error- NoneType?")
                 continue
@@ -249,5 +248,5 @@ if __name__ == "__main__":
                 continue
     f.close()
     st = perf_counter()
-    print(f"{count} records processed in {st - s:0.4f} seconds")
+    print(f"{COUNT} records processed in {st - s:0.4f} seconds")
     query_results.close()
