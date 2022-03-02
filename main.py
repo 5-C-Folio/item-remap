@@ -5,6 +5,7 @@ from functools import lru_cache
 import json
 import os
 import cx_Oracle
+# cx_oracle requies installation of the oracle instant client. Depending on system setup, it may require the path
 cx_Oracle.init_oracle_client(lib_dir=r"C:\\oracle\\INSTantclient_12_1")
 try:
     from passwords import logIn
