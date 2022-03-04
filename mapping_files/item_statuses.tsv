@@ -1,7 +1,7 @@
 legacy_code	folio_name
 AR	Available
 DI	Available
-NR	Available
+NR	Unavailable
 NB	Available
 NI	Available
 ZZ	Restricted
@@ -10,7 +10,7 @@ HT	Unknown
 BD	In process
 BH	In process
 BP	In process
-CN	In process
+CN	Unavailable
 IS	In process (non-requestable)
 DP	In process
 IP	In process
@@ -49,3 +49,5 @@ ST	Missing
 SF	Missing
 SH	Missing
 LO	Lost and paid
+SU	Intellectual Item
+CL	Unavailable

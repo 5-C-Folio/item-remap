@@ -72,21 +72,21 @@ Non-circulating	MHLIB	02
 Standard Loan	MHLIB	01
 Reserve 3 Day	MHLIB	13
 Reserve 4 Hour	MHLIB	11
-Limited	MHLIB	18
+1 Week	MHLIB	18
 2 Week	MHLIB	09
 1 Week	MHLIB	10
-4 Week	MHLIB	14
+Standard Loan	MHLIB	14
 4 Week	MHLIB	16
 Internet	MHLIB	04
-Equipment 3 Day	MHLIB	08
-Equipment 3 Day	MHLIB	15
+Equipment 3 Day, fined  Day	MHLIB	08
+Equipment 3 Day, fined 	MHLIB	15
 Equipment 4 Hour	MHLIB	07
 Equipment 4 Hour	MHLIB	17
 Equipment 4 Hour	MHLRC	07
 Equipment 4 Hour	MHLRC	17
 Equipment 4 Hour	MHPSL	07
 Equipment 4 Hour	MHPSL	17
-Equipment 3 Day	MHLIB	21
+Equipment 1 Week, fined 	MHLIB	21
 Standard Loan	MHLRC	01
 Reserve 4 Hour	MHLRC	11
 1 Week	MHLRC	18
@@ -98,11 +98,11 @@ Reserve 4 Hour	MHPSL	11
 4 Week	MHPSL	16
 4 Week	MHPSL	14
 Equipment 3 Day	MHPSL	08
-Equipment 3 Day	MHPSL	15
+Equipment 3 Day, fined 	MHPSL	15
 Equipment 1 Week	MHPSL	19
 Equipment 3 Day	MHPSL	21
 Equipment 3 Day	MHLRC	08
-Equipment 3 Day	MHLRC	15
+
 Equipment 3 Day	MHLRC	21
 Non-circulating	SCANN	02
 Non-circulating	SCANN	03
@@ -298,7 +298,7 @@ Non-circulating	UMSCI	16
 Non-circulating	YMAIN	01
 Non-circulating	YMAIN	02
 Non-circulating	ACMUS	02
-Standard Loan	MHPSL	10
+1 Week	MHPSL	10
 Reserve 3 Day	SCNLS	23
 Non-circulating	UMIMA	02
 Non-circulating	UMSCA	02
@@ -307,7 +307,7 @@ Non-circulating	UMSCA	25
 Standard Loan	HCASC	15
 Non-circulating	MHSKM	14
 Non-circulating	MHASC	01
-Equipment 1 Week	MHLIB	19
+Equipment 1 Week, fined 	MHLIB	19
 Non-circulating	MHASC	14
 Reserve 1 Day	SCJOS	21
 Non-circulating	REN	02
