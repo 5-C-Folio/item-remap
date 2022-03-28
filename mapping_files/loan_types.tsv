@@ -1,6 +1,6 @@
 folio_name	Z30_SUB_LIBRARY	Z30_ITEM_STATUS
 Non-circulating	*	*
-1 Week	ACASP	10
+Non-circulating	ACASP	10
 Non-circulating	ACASP	02
 Non-circulating	ACASP	03
 Non-circulating	ACASP	01
@@ -33,7 +33,7 @@ Reserve 1 Day	ACMUS	23
 Reserve 3 Day	ACMUS	24
 Reserve 1 Week	ACMUS	25
 Reserve 1 Week	ACMUS	26
-Limited	ACMUS	10
+1 Week	ACMUS	10
 1 Week	ACMUS	18
 4 Week	ACMUS	17
 Internet	ACMUS	04
@@ -99,7 +99,7 @@ Reserve 4 Hour	MHPSL	11
 4 Week	MHPSL	14
 Equipment 3 Day	MHPSL	08
 Equipment 3 Day, fined 	MHPSL	15
-Equipment 1 Week	MHPSL	19
+4 Week	MHPSL	19
 Equipment 3 Day	MHPSL	21
 Equipment 3 Day	MHLRC	08
 
@@ -126,9 +126,9 @@ Standard Loan	SCHIL	01
 Reserve 1 Week	SCHIL	25
 Semester	SCHIL	66
 4 Week	SCHIL	10
-Limited	SCHIL	11
+4 Week	SCHIL	11
 Limited	SCHIL	12
-Limited	SCHIL	13
+4 Week	SCHIL	13
 Internet	SCHIL	04
 Non-circulating	SCJOS	02
 Non-circulating	SCJOS	03
@@ -139,7 +139,7 @@ Semester	SCJOS	66
 4 Week	SCJOS	10
 Limited	SCJOS	11
 Limited	SCJOS	12
-Limited	SCJOS	14
+4 Week	SCJOS	14
 4 Week	SCJOS	13
 Internet	SCJOS	04
 Non-circulating	SCNLS	02
@@ -183,7 +183,7 @@ Equipment 4 Hour	UMDML	58
 Equipment 1 Hour	UMDML	52
 Equipment 3 Day	UMDML	53
 Equipment 3 Day	UMDML	54
-Equipment 3 Day	UMDML	55
+Equipment 3 Day, fined	UMDML	55
 Equipment 3 Day	UMDML	56
 Equipment 3 Day	UMDML	57
 Non-circulating	UMDUB	02
@@ -197,7 +197,7 @@ Standard Loan	UMDUB	01
 4 Week	UMDUB	22
 4 Week	UMDUB	25
 4 Week	UMDUB	27
-Limited	UMDUB	07
+1 Week	UMDUB	07
 Comm Catalog	UMDUB	28
 Internet	UMDUB	04
 Non-circulating	UMFAC	03
@@ -235,7 +235,7 @@ Equipment 4 Hour	UMMDA	58
 Equipment 4 Hour	UMMDA	52
 Equipment 3 Day	UMMDA	53
 Equipment 3 Day	UMMDA	54
-Equipment 3 Day	UMMDA	55
+Equipment 3 Day, fined	UMMDA	55
 Equipment 3 Day	UMMDA	56
 Equipment 3 Day	UMMDA	57
 Non-circulating	UMSCA	03
@@ -253,7 +253,7 @@ Standard Loan	UMSCI	01
 Internet	UMSCI	04
 Reserve 4 Hour	UMDUB	31
 Non-circulating	*	*
-1 Week	ACASP	10
+
 Standard Loan	ACFST	05
 Reserve 4 Hour	ACFST	21
 Reserve 4 Hour	ACMUS	21
