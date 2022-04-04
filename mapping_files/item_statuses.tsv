@@ -1,53 +1,76 @@
 legacy_code	folio_name
-AR	Available
-DI	Available
-NR	Unavailable
-NB	Available
-NI	Available
-ZZ	Restricted
-DR	Restricted
-HT	Unknown
-BD	In process
-BH	In process
-BP	In process
-CN	Unavailable
-IS	In process (non-requestable)
-DP	In process
-IP	In process
-PA	In process
-PC	In process
-PH	In process
-PN	In process
-PR	In process
-PS	In process
-PW	In process
-RP	In process
-SB	In process
+AI	In process (non-requestable)
 AM	Restricted
-SR	Restricted
-TR	Unknown
-NP	Unavailable
-DC	Unavailable
-OE	Unavailable
-UN	Unavailable
-RO	Unavailable
-BL	Long missing
-LP	Lost and paid
-GA	Unavailable
-IO	Unavailable
+AO	In process (non-requestable)
+AR	In process
+BD	In process (non-requestable)
+BH	In process (non-requestable)
+BL	Declared lost
+BP	In process (non-requestable)
+CA	Order closed
+CL	Unavailable
+CN	In process (non-requestable)
 CR	Claimed returned
-FC	Claimed returned
-FP	Lost and paid
+DC	Available
+DI	Available
+DM	Missing
+DO	In process (non-requestable)
+DP	In process (non-requestable)
+DR	Restricted
 DS	Withdrawn
 DW	Withdrawn
-WD	Withdrawn
-RE	Withdrawn
-MI	Missing
+FC	Claimed returned
+FP	Lost and paid
+GA	Unavailable
+HT	Unknown
+IC	Unavailable
+IL	Available
 IM	Missing
+IO	Unavailable
+IP	In process
+IS	In process (non-requestable)
+KM	Missing
+LN	In process (non-requestable)
+LO	Declared lost
+LP	Lost and paid
+MI	Missing
+NA	On order
+NB	Available
+NI	Available
+NP	Unavailable
+NR	Unavailable
+OE	Available
+OO	On order
+OP	Unavailable
+PA	In process (non-requestable)
+PC	In process (non-requestable)
+PH	In process (non-requestable)
+PL	In process (non-requestable)
+PN	In process (non-requestable)
+PR	In process (non-requestable)
+PS	Unavailable
+PT	Order closed
+PW	In process (non-requestable)
+RA	Available
+RE	Restricted
+RH	Available
+RM	Available
+RO	Unavailable
+RP	In process (non-requestable)
+RQ	Available
+RS	Available
+RU	Available
+SB	In process (non-requestable)
+SE	Missing
+SF	Missing
+SH	Unavailable
+SR	Restricted
 SS	Missing
 ST	Missing
-SF	Missing
-SH	Missing
-LO	Lost and paid
-SU	Intellectual Item
-CL	Unavailable
+SU	Intellectual item
+TD	In transit
+TR	Long missing
+UD	Unavailable
+UN	Unavailable
+WD	Withdrawn
+ZZ	Restricted
