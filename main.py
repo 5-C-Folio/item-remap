@@ -4,6 +4,7 @@ from time import perf_counter
 from functools import lru_cache
 import json
 import os
+from typing import Type
 import cx_Oracle
 # cx_oracle requies installation of the oracle instant client. Depending on system setup, it may require the path
 cx_Oracle.init_oracle_client(lib_dir=r"C:\\oracle\\INSTantclient_12_1")
@@ -78,8 +79,9 @@ class DictMap:
     @lru_cache(8)
     def matchx(self, legacy_code, fallback):
         try:
+            legacy_code = legacy_code.rstrip()
             folio_map = self.lookup_dict[legacy_code]
-        except (AttributeError, KeyError):
+        except (AttributeError, KeyError, TypeError):
             folio_map = fallback
         return folio_map
 
@@ -109,20 +111,33 @@ def lc_parser(call_num):
 
 def barcode_parse(barcode,school_code):
     # remove whitespace in barcodes. If the barcode doesn't match standard barcode length, append school code
-    barcode = barcode.replace(" ", "")
-    if len(barcode) < 15:
-        barcode = f"{barcode}-{school_code}"
-    # print(barcode)
-    return {"Z30_BARCODE":barcode}
+        barcode = barcode.replace(" ", "")
+        try:
+            if len(barcode) < 15 :
+                barcode = f"{barcode}-{school_code}"        
+            return {"Z30_BARCODE":barcode}
+            
+        except TypeError:
+            print("hello")
+            return {"Z30_BARCODE":'ERROR'}
+
+        
+
 
 
 def parse(row):
     #call all functions to fix results 
+   
     barcode = barcode_parse(row["Z30_BARCODE"],INST)
     row.update(barcode)
-    materialLookup = singleMatch_materials.matchx(row["Z30_MATERIAL"].rstrip(), "z")
+    
+    materialLookup = singleMatch_materials.matchx(row["Z30_MATERIAL"], row["Z30_MATERIAL"])
     row.update({"material_type": materialLookup})
-    loantype = loantype_map.matchx(row["Z30_SUB_LIBRARY"].rstrip()+row["Z30_ITEM_STATUS"], "oops")
+    try:
+        loantype = loantype_map.matchx(row["Z30_SUB_LIBRARY"]+row["Z30_ITEM_STATUS"],'Non-circulating')
+    except TypeError:
+        loantype = 'Non-circulating'
+       
     row.update( {"loanType": loantype})
     item_policy = item_policy_map.matchx(row["Z30_ITEM_PROCESS_STATUS"], "Available")
     row.update({"item_status": item_policy})
@@ -189,7 +204,7 @@ class Query:
         --last line is limit for testing
         --and ROWNUM < 100000
         ''')
-        numrows = 500000
+        numrows = 800000
         while True:
             cursor.rowfactory = self.make_dict_factory(cursor)
             rows = cursor.fetchmany(numrows)
@@ -229,7 +244,7 @@ if __name__ == "__main__":
     now = datetime.now()
     now = now.strftime("%m-%d-%H%M")
     # create output file- will append since there will be multiple writes
-    f = open(f"items-{INST}-{now}.tsv", 'a', newline='', encoding='utf-8')
+    f = open(f"output/items-{INST}-{now}.tsv", 'a', newline='', encoding='utf-8')
     writer = DictWriter(f, fieldnames=headers, delimiter='\t')
     writer.writeheader()
     COUNT = 0
@@ -239,8 +254,8 @@ if __name__ == "__main__":
             try:
                 COUNT +=1
                 writer.writerow(line)
-                #if COUNT % 1000 == 0:
-                    #print(COUNT)
+                if COUNT % 500000 == 0:
+                    print(COUNT)
             except AttributeError:
                 print("Error- NoneType?")
                 continue
