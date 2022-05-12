@@ -5,7 +5,7 @@ AO	In process (non-requestable)
 AR	In process
 BD	In process (non-requestable)
 BH	In process (non-requestable)
-BL	Declared lost
+BL	Long missing
 BP	In process (non-requestable)
 CA	Order closed
 CL	Unavailable
@@ -31,7 +31,7 @@ IP	In process
 IS	In process (non-requestable)
 KM	Missing
 LN	In process (non-requestable)
-LO	Declared lost
+LO	Long missing
 LP	Lost and paid
 MI	Missing
 NA	On order
