@@ -263,11 +263,11 @@ Reserve 4 Hour	ACSCI	21
 Standard Loan	FCANN	01
 Non-circulating	FCANN	02
 Non-circulating	FCANN	11
-Limited	FCANN	13
+Non-circulating	FCANN	13
 Standard Loan	FCDPT	01
 Non-circulating	FCDPT	02
 Non-circulating	FCDPT	11
-Limited	FCDPT	13
+Non-circulating	FCDPT	13
 Internet	FCWWW	04
 Standard Loan	HCLIB	05
 Limited	HCLIB	06
