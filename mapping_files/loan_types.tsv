@@ -74,7 +74,7 @@ Reserve 3 Day	MHLIB	13
 Reserve 4 Hour	MHLIB	11
 1 Week	MHLIB	18
 2 Week	MHLIB	09
-1 Week	MHLIB	10
+4 Week	MHLIB	10
 Standard Loan	MHLIB	14
 4 Week	MHLIB	16
 Internet	MHLIB	04
@@ -270,7 +270,7 @@ Non-circulating	FCDPT	11
 Non-circulating	FCDPT	13
 Internet	FCWWW	04
 Standard Loan	HCLIB	05
-Limited	HCLIB	06
+1 Week	HCLIB	06
 1 Week	HCLIB	07
 Equipment 3 Day	HCLIB	16
 1 Week	HCLIB	18
